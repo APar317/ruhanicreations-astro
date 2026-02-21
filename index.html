@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruhani Creations by Sumati</title>
+  <meta name="description" content="Ruhani Creations by Sumati - Indian designer wear catalog with product photos, descriptions, and pricing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="layout">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">R</span>
+      <span class="brand-text">
+        Ruhani Creations
+        <small>by Sumati</small>
+      </span>
+    </a>
+    <nav class="side-nav" aria-label="Primary navigation">
+      <a class="menu-link active" href="index.html">Home</a>
+      <a class="menu-link" href="#catalog">Catalog</a>
+      <a class="menu-link" href="about.html">About</a>
+      <a class="menu-link" href="contact.html">Contact</a>
+      <a class="menu-link" href="faq.html">FAQ</a>
+      <a class="menu-link" href="terms.html">Terms</a>
+      <a class="menu-link" href="privacy.html">Privacy</a>
+    </nav>
+    <div class="sidebar-note">
+      <p>Curated Indian designer wear for wedding, festive, and occasion styling.</p>
+    </div>
+  </aside>
+
+  <div class="content-area">
+    <header class="mobile-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span class="brand-text">
+          Ruhani Creations
+          <small>by Sumati</small>
+        </span>
+      </a>
+    </header>
+
+    <main class="content-main" id="top">
+      <section class="hero">
+        <div class="container hero-content">
+          <p class="eyebrow">Ruhani Creations by Sumati</p>
+          <h1>Indian Designer Wear for Celebrations That Matter</h1>
+          <p class="hero-copy">
+            Explore our curated catalog of lehengas, sarees, gowns, and festive sets.
+            Each piece includes photos, detailed descriptions, and pricing in INR.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#catalog">View Catalog</a>
+            <a class="button ghost" href="#how-to-update">Update Products</a>
+            <a class="button ghost" href="contact.html">Contact</a>
+          </div>
+        </div>
+        <div class="hero-glow hero-glow-1" aria-hidden="true"></div>
+        <div class="hero-glow hero-glow-2" aria-hidden="true"></div>
+      </section>
+
+      <section class="controls container" id="catalog">
+        <div class="control">
+          <label for="search">Search products</label>
+          <input id="search" type="search" placeholder="Try lehenga, red, bridal...">
+        </div>
+        <div class="control">
+          <label for="category">Category</label>
+          <select id="category"></select>
+        </div>
+        <div class="control">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="all">All</option>
+            <option value="in-stock">In Stock</option>
+            <option value="sold">Sold</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="catalog container">
+        <div id="product-grid" class="product-grid" aria-live="polite"></div>
+        <p id="empty-state" class="empty-state hidden">
+          No products found. Try changing your search or filters.
+        </p>
+      </section>
+
+      <section class="info-section container" id="how-to-update">
+        <h2>How to add or update products</h2>
+        <ol>
+          <li>Open <code>products.js</code>.</li>
+          <li>Add a new object with title, category, price, status, description, and 3-4 image URLs.</li>
+          <li>Save and refresh the page. Your new design appears instantly.</li>
+        </ol>
+      </section>
+
+      <section class="info-section container">
+        <h2>Ready to order?</h2>
+        <p>Reach us directly for size, customization, and delivery details.</p>
+        <div class="contact-links">
+          <a class="button primary" href="https://wa.me/919999999999" target="_blank" rel="noreferrer">WhatsApp</a>
+          <a class="button ghost" href="mailto:hello@ruhanicreations.com">Email</a>
+          <a class="button ghost" href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="terms.html">Terms & Conditions</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="401.html">401</a>
+        <a href="404.html">404</a>
+      </div>
+      <p>© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <dialog id="product-modal" class="modal">
+    <article class="modal-card">
+      <button id="close-modal" class="icon-button" type="button" aria-label="Close product details">×</button>
+      <div class="modal-gallery">
+        <img id="modal-main-image" alt="">
+        <div id="modal-thumbnails" class="thumbnails"></div>
+      </div>
+      <div class="modal-details">
+        <p id="modal-category" class="eyebrow"></p>
+        <h3 id="modal-title"></h3>
+        <p id="modal-price" class="modal-price"></p>
+        <p id="modal-status" class="status-badge"></p>
+        <p id="modal-description" class="modal-description"></p>
+      </div>
+    </article>
+  </dialog>
+
+  <script src="site.js"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
