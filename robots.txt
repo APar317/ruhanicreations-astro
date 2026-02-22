@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ruhanicreations.com/sitemap.xml
+Sitemap: https://ruhanicreationsbysumati.com/sitemap.xml
