@@ -2,6 +2,8 @@
 
 This is a static multi-page catalog website for an Indian designer clothing business.
 
+For infrastructure/configuration details, see `PROJECT_PLAN.md`.
+
 ## Current pages
 
 - `index.html` - Home + product catalog
@@ -23,7 +25,7 @@ Standard website files included:
 - Left sidebar navigation
 - Footer links on every page
 - Product cards with:
-  - 3 to 4 photos per product
+  - multiple photos per product
   - description
   - price in INR
   - stock status (`in-stock` / `sold`)
@@ -42,7 +44,7 @@ Each product needs:
 - `priceInr`
 - `status`
 - `description`
-- `images` (3 to 4 image paths recommended, e.g. `assets/products/p-001/1.webp`)
+- `images` (image paths, e.g. `assets/products/women/<file>.PNG`)
 
 ## Product image hosting recommendation
 

@@ -4,10 +4,13 @@ Store product photos in this folder and reference them in `products.js`.
 
 Suggested structure:
 
-- `assets/products/p-001/1.webp`
-- `assets/products/p-001/2.webp`
-- `assets/products/p-001/3.webp`
-- `assets/products/p-001/4.webp`
+- `assets/products/women/<image-file>.PNG`
+- `assets/products/girl-child/<image-file>.PNG`
+
+Current setup in this project:
+
+- `women/` contains women outfits.
+- `girl-child/` contains kids/girl-child outfits.
 
 Guidelines:
 
