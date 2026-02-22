@@ -1,13 +1,14 @@
 :root {
-  --bg: #fff9f2;
-  --surface: #fff;
-  --text: #241a14;
-  --muted: #6f5b4f;
-  --primary: #b5542d;
-  --primary-dark: #8d3b1b;
-  --line: #ebd8cb;
+  --bg: #f8f5ec;
+  --surface: #fffdf8;
+  --text: #183127;
+  --muted: #586f63;
+  --primary: #0f5a45;
+  --primary-dark: #0b4032;
+  --accent: #c8a24d;
+  --line: #e4dac5;
   --sold: #5e5e5e;
-  --in-stock: #17623b;
+  --in-stock: #0f5a45;
 }
 
 * {
@@ -20,8 +21,8 @@ body {
   padding: 0;
   font-family: "Manrope", sans-serif;
   color: var(--text);
-  background: radial-gradient(circle at 5% 5%, #ffe3cb 0%, transparent 40%),
-    radial-gradient(circle at 85% 15%, #f5d7c4 0%, transparent 35%),
+  background: radial-gradient(circle at 5% 5%, rgba(200, 162, 77, 0.2) 0%, transparent 42%),
+    radial-gradient(circle at 85% 15%, rgba(15, 90, 69, 0.14) 0%, transparent 35%),
     var(--bg);
 }
 
@@ -58,44 +59,22 @@ p {
   height: 100vh;
   padding: 1.1rem 1rem;
   border-right: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255, 250, 246, 0.92), rgba(255, 245, 236, 0.9));
+  background: linear-gradient(180deg, rgba(255, 253, 247, 0.94), rgba(248, 242, 228, 0.9));
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  display: block;
+  width: min(230px, 100%);
   text-decoration: none;
-  font-weight: 700;
 }
 
-.brand-mark {
-  width: 2.3rem;
-  height: 2.3rem;
-  display: inline-grid;
-  place-items: center;
-  color: #fff;
-  background: linear-gradient(135deg, var(--primary), #cf7d3f);
-  border-radius: 999px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.3rem;
-}
-
-.brand-text {
-  display: grid;
-  font-size: 1rem;
-  line-height: 1.2;
-}
-
-.brand-text small {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
+.brand-logo {
+  width: 100%;
+  height: auto;
 }
 
 .side-nav {
-  margin-top: 1.4rem;
+  margin-top: 1rem;
   display: grid;
   gap: 0.35rem;
 }
@@ -106,7 +85,7 @@ p {
   padding: 0.58rem 0.72rem;
   border-radius: 9px;
   font-weight: 600;
-  color: #4f3f35;
+  color: #2e4e41;
 }
 
 .menu-link:hover {
@@ -114,9 +93,9 @@ p {
 }
 
 .menu-link.active {
-  background: #fff;
+  background: #fffefb;
   color: var(--primary-dark);
-  border: 1px solid #edd8c8;
+  border: 1px solid #ddd0b1;
 }
 
 .sidebar-note {
@@ -199,7 +178,7 @@ h1 {
 
 .button.primary {
   color: #fff;
-  background: linear-gradient(135deg, var(--primary), #cc7c3d);
+  background: linear-gradient(135deg, var(--primary), #1d7659);
 }
 
 .button.primary:hover {
@@ -228,7 +207,7 @@ h1 {
   top: -6rem;
   width: 18rem;
   height: 18rem;
-  background: radial-gradient(circle, rgba(196, 113, 53, 0.45) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(200, 162, 77, 0.38) 0%, transparent 65%);
 }
 
 .hero-glow-2 {
@@ -236,7 +215,7 @@ h1 {
   bottom: -8rem;
   width: 16rem;
   height: 16rem;
-  background: radial-gradient(circle, rgba(201, 136, 91, 0.3) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(15, 90, 69, 0.24) 0%, transparent 60%);
 }
 
 .controls {
@@ -327,7 +306,7 @@ h1 {
 
 .status-in-stock {
   color: var(--in-stock);
-  background: #d7f5e4;
+  background: #d7eee4;
 }
 
 .status-sold {

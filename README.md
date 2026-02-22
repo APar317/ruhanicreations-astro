@@ -42,7 +42,15 @@ Each product needs:
 - `priceInr`
 - `status`
 - `description`
-- `images` (3 to 4 URLs recommended)
+- `images` (3 to 4 image paths recommended, e.g. `assets/products/p-001/1.webp`)
+
+## Product image hosting recommendation
+
+For this static site, prefer storing product images in the repository under `assets/products/`.
+
+- Good for launch and moderate catalog sizes.
+- Version controlled and deployed together with site changes.
+- Avoid using Dropbox public links for product assets (link stability and cache behavior are weaker for production websites).
 
 ## Local run
 
