@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -eu
+
+required_email="vishal.aswanidei@gmail.com"
+current_email="$(git config --local --get user.email || true)"
+
+if [ "$current_email" != "$required_email" ]; then
+  echo "Commit blocked: user.email must be '$required_email' for this repository." >&2
+  echo "Current local user.email is '${current_email:-<unset>}'" >&2
+  exit 1
+fi
