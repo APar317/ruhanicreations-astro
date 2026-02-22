@@ -1,0 +1,69 @@
+name: Deploy Cloudflare Pages Production on Release Tag
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: cloudflare-pages-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy release tag to production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Validate release tag format
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event.release.tag_name }}"
+          if [[ ! "$TAG" =~ ^[0-9]{8}\.[0-9]+-prod$ ]]; then
+            echo "Invalid release tag: '$TAG'"
+            echo "Required format: YYYYMMDD.N-prod (example: 20260222.1-prod)"
+            exit 1
+          fi
+
+      - name: Validate required GitHub variable
+        env:
+          CLOUDFLARE_PAGES_PROJECT_NAME: ${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${CLOUDFLARE_PAGES_PROJECT_NAME:-}" ]]; then
+            echo "Missing Actions variable: CLOUDFLARE_PAGES_PROJECT_NAME"
+            echo "Set it in GitHub repo Settings > Secrets and variables > Actions > Variables."
+            exit 1
+          fi
+
+      - name: Check out exact release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Prepare static bundle
+        run: |
+          set -euo pipefail
+          rm -rf .cf-pages-dist
+          mkdir -p .cf-pages-dist
+          cp -R assets .cf-pages-dist/
+          cp -R *.html .cf-pages-dist/
+          cp -R *.css .cf-pages-dist/
+          cp -R *.js .cf-pages-dist/
+          cp robots.txt sitemap.xml .cf-pages-dist/
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .cf-pages-dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }} --branch=main
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deployment output
+        run: |
+          echo "Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
+          echo "Alias URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}"
