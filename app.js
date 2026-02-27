@@ -6,13 +6,26 @@ const statusSelect = document.getElementById("status");
 
 const modal = document.getElementById("product-modal");
 const closeModalBtn = document.getElementById("close-modal");
+const modalImageFrame = document.getElementById("modal-image-frame");
 const modalMainImage = document.getElementById("modal-main-image");
+const prevImageBtn = document.getElementById("modal-prev-image");
+const nextImageBtn = document.getElementById("modal-next-image");
+const zoomOutBtn = document.getElementById("zoom-out");
+const zoomResetBtn = document.getElementById("zoom-reset");
+const zoomInBtn = document.getElementById("zoom-in");
 const modalThumbs = document.getElementById("modal-thumbnails");
 const modalCategory = document.getElementById("modal-category");
 const modalTitle = document.getElementById("modal-title");
 const modalPrice = document.getElementById("modal-price");
 const modalStatus = document.getElementById("modal-status");
 const modalDescription = document.getElementById("modal-description");
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 3;
+const ZOOM_STEP = 0.25;
+
+let activeModalProduct = null;
+let activeImageIndex = 0;
+let zoomLevel = ZOOM_MIN;
 
 const currency = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -94,12 +107,38 @@ function renderProducts() {
     .join("");
 }
 
-function renderModalThumbnails(product, selectedImage) {
+function updateImageNavigationState() {
+  if (!activeModalProduct) return;
+  const hasMultipleImages = activeModalProduct.images.length > 1;
+  prevImageBtn.disabled = !hasMultipleImages;
+  nextImageBtn.disabled = !hasMultipleImages;
+}
+
+function applyZoom() {
+  modalMainImage.style.transform = `scale(${zoomLevel})`;
+  modalImageFrame.classList.toggle("zoomed", zoomLevel > ZOOM_MIN);
+  zoomResetBtn.textContent = `${Math.round(zoomLevel * 100)}%`;
+  zoomOutBtn.disabled = zoomLevel <= ZOOM_MIN;
+  zoomInBtn.disabled = zoomLevel >= ZOOM_MAX;
+}
+
+function resetZoom() {
+  zoomLevel = ZOOM_MIN;
+  modalMainImage.style.transformOrigin = "center center";
+  applyZoom();
+}
+
+function adjustZoom(delta) {
+  zoomLevel = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel + delta));
+  applyZoom();
+}
+
+function renderModalThumbnails(product, selectedIndex) {
   modalThumbs.innerHTML = product.images
-    .map((img) => {
-      const activeClass = img === selectedImage ? "active" : "";
+    .map((img, index) => {
+      const activeClass = index === selectedIndex ? "active" : "";
       return `
-        <button type="button" class="thumb ${activeClass}" data-image="${img}" aria-label="View product image">
+        <button type="button" class="thumb ${activeClass}" data-index="${index}" aria-label="View product image ${index + 1}">
           <img src="${img}" alt="${product.title}">
         </button>
       `;
@@ -107,25 +146,45 @@ function renderModalThumbnails(product, selectedImage) {
     .join("");
 }
 
+function setActiveModalImage(index) {
+  if (!activeModalProduct || !activeModalProduct.images.length) return;
+  const imageCount = activeModalProduct.images.length;
+  activeImageIndex = ((index % imageCount) + imageCount) % imageCount;
+  modalMainImage.src = activeModalProduct.images[activeImageIndex];
+  modalMainImage.alt = activeModalProduct.title;
+  renderModalThumbnails(activeModalProduct, activeImageIndex);
+  resetZoom();
+}
+
+function moveModalImage(offset) {
+  if (!activeModalProduct) return;
+  setActiveModalImage(activeImageIndex + offset);
+}
+
 function openModal(productId) {
   const product = PRODUCTS.find((item) => item.id === productId);
   if (!product) return;
 
-  const firstImage = product.images[0] || "";
-  modalMainImage.src = firstImage;
-  modalMainImage.alt = product.title;
+  activeModalProduct = product;
+  activeImageIndex = 0;
   modalCategory.textContent = product.category;
   modalTitle.textContent = product.title;
   modalPrice.textContent = currency.format(product.priceInr);
   modalStatus.textContent = statusLabel(product.status);
   modalStatus.className = `status-badge ${statusClass(product.status)}`;
   modalDescription.textContent = product.description;
-  renderModalThumbnails(product, firstImage);
+  updateImageNavigationState();
+  setActiveModalImage(0);
   modal.showModal();
 }
 
 function closeModal() {
-  if (modal.open) modal.close();
+  if (modal.open) {
+    modal.close();
+  }
+  activeModalProduct = null;
+  activeImageIndex = 0;
+  resetZoom();
 }
 
 function setupEvents() {
@@ -141,6 +200,13 @@ function setupEvents() {
 
   closeModalBtn.addEventListener("click", closeModal);
 
+  prevImageBtn.addEventListener("click", () => moveModalImage(-1));
+  nextImageBtn.addEventListener("click", () => moveModalImage(1));
+
+  zoomInBtn.addEventListener("click", () => adjustZoom(ZOOM_STEP));
+  zoomOutBtn.addEventListener("click", () => adjustZoom(-ZOOM_STEP));
+  zoomResetBtn.addEventListener("click", resetZoom);
+
   modal.addEventListener("click", (event) => {
     const rect = modal.getBoundingClientRect();
     const inDialog =
@@ -154,13 +220,66 @@ function setupEvents() {
   modalThumbs.addEventListener("click", (event) => {
     const thumb = event.target.closest(".thumb");
     if (!thumb) return;
+    setActiveModalImage(Number(thumb.dataset.index));
+  });
 
-    const image = thumb.dataset.image;
-    modalMainImage.src = image;
-    modalMainImage.alt = modalTitle.textContent;
-    [...modalThumbs.querySelectorAll(".thumb")].forEach((node) =>
-      node.classList.toggle("active", node === thumb)
-    );
+  modalImageFrame.addEventListener(
+    "wheel",
+    (event) => {
+      if (!modal.open) return;
+      event.preventDefault();
+      adjustZoom(event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP);
+    },
+    { passive: false }
+  );
+
+  modalImageFrame.addEventListener("mousemove", (event) => {
+    if (zoomLevel <= ZOOM_MIN) return;
+    const rect = modalMainImage.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const xClamped = Math.min(100, Math.max(0, x));
+    const yClamped = Math.min(100, Math.max(0, y));
+    modalMainImage.style.transformOrigin = `${xClamped}% ${yClamped}%`;
+  });
+
+  modalImageFrame.addEventListener("mouseleave", () => {
+    if (zoomLevel > ZOOM_MIN) {
+      modalMainImage.style.transformOrigin = "center center";
+    }
+  });
+
+  modal.addEventListener("keydown", (event) => {
+    if (!modal.open) return;
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      moveModalImage(-1);
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      moveModalImage(1);
+      return;
+    }
+
+    if (event.key === "+" || event.key === "=") {
+      event.preventDefault();
+      adjustZoom(ZOOM_STEP);
+      return;
+    }
+
+    if (event.key === "-" || event.key === "_") {
+      event.preventDefault();
+      adjustZoom(-ZOOM_STEP);
+      return;
+    }
+
+    if (event.key === "0") {
+      event.preventDefault();
+      resetZoom();
+    }
   });
 }
 
@@ -168,6 +287,7 @@ function init() {
   buildCategoryOptions();
   renderProducts();
   setupEvents();
+  resetZoom();
 }
 
 init();

@@ -22,7 +22,7 @@ Standard website files included:
 
 ## Core features
 
-- Left sidebar navigation
+- Sticky top header navigation
 - Footer links on every page
 - Product cards with:
   - multiple photos per product
@@ -30,7 +30,7 @@ Standard website files included:
   - price in INR
   - stock status (`in-stock` / `sold`)
 - Search and filters on the home catalog
-- Product details modal gallery
+- Product details modal gallery with left/right image navigation and zoom controls
 - Mobile responsive layout
 
 ## Product updates
@@ -57,10 +57,12 @@ For this static site, prefer storing product images in the repository under `ass
 ## Local run
 
 ```bash
-python3 -m http.server 8080
+python3 serve_local.py --port 8080
 ```
 
 Open `http://localhost:8080`.
+
+For missing URLs (example: `/notapage.html`), this local server returns your branded `404.html` page.
 
 ## Deployment (free)
 

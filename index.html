@@ -9,11 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.ico?v=20260228" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260228">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260228">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260228">
 </head>
 <body class="layout">
-  <aside class="sidebar">
+  <header class="sidebar">
     <a class="brand" href="index.html">
-      <img class="brand-logo" src="assets/logo.svg" alt="Ruhani Creations by Sumati">
+      <img class="brand-logo" src="assets/logo_colorful_header.PNG" alt="Ruhani Creations by Sumati">
     </a>
     <nav class="side-nav" aria-label="Primary navigation">
       <a class="menu-link active" href="index.html">Home</a>
@@ -27,15 +31,9 @@
     <div class="sidebar-note">
       <p>Curated Indian designer wear for wedding, festive, and occasion styling.</p>
     </div>
-  </aside>
+  </header>
 
   <div class="content-area">
-    <header class="mobile-header">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/logo.svg" alt="Ruhani Creations by Sumati">
-      </a>
-    </header>
-
     <main class="content-main" id="top">
       <section class="hero">
         <div class="container hero-content">
@@ -112,7 +110,16 @@
     <article class="modal-card">
       <button id="close-modal" class="icon-button" type="button" aria-label="Close product details">×</button>
       <div class="modal-gallery">
-        <img id="modal-main-image" alt="">
+        <div id="modal-image-frame" class="modal-image-frame">
+          <button id="modal-prev-image" class="gallery-nav gallery-nav-prev" type="button" aria-label="View previous image">&#10094;</button>
+          <img id="modal-main-image" alt="">
+          <button id="modal-next-image" class="gallery-nav gallery-nav-next" type="button" aria-label="View next image">&#10095;</button>
+          <div class="zoom-controls" aria-label="Image zoom controls">
+            <button id="zoom-out" class="zoom-button" type="button" aria-label="Zoom out">-</button>
+            <button id="zoom-reset" class="zoom-button zoom-reset" type="button" aria-label="Reset zoom">100%</button>
+            <button id="zoom-in" class="zoom-button" type="button" aria-label="Zoom in">+</button>
+          </div>
+        </div>
         <div id="modal-thumbnails" class="thumbnails"></div>
       </div>
       <div class="modal-details">
