@@ -41,6 +41,118 @@ function statusClass(status) {
   return status === "sold" ? "status-sold" : "status-in-stock";
 }
 
+function getActualPrice(product) {
+  return typeof product.actualPriceInr === "number" ? product.actualPriceInr : 0;
+}
+
+function getDiscountPercent(product) {
+  return typeof product.discountPercent === "number" ? product.discountPercent : 0;
+}
+
+function getNetPrice(product) {
+  if (typeof product.netPriceInr === "number") return product.netPriceInr;
+
+  const actualPrice = getActualPrice(product);
+  const discountPercent = getDiscountPercent(product);
+  return Math.round(actualPrice * (1 - discountPercent / 100));
+}
+
+function getSavings(product) {
+  const actualPrice = getActualPrice(product);
+  const netPrice = getNetPrice(product);
+  return Math.max(0, actualPrice - netPrice);
+}
+
+function renderPriceMarkup(product) {
+  const actualPrice = getActualPrice(product);
+  const discountPercent = getDiscountPercent(product);
+  const netPrice = getNetPrice(product);
+  const savings = getSavings(product);
+
+  if (!actualPrice) {
+    return `
+      <div class="price-stack">
+        <div class="price-current-card">
+          <div class="price-current-copy">
+            <span class="price-label">Price</span>
+            <span class="price-current">${currency.format(netPrice)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (!discountPercent) {
+    return `
+      <div class="price-stack">
+        <div class="price-current-card">
+          <div class="price-current-copy">
+            <span class="price-label">Price</span>
+            <span class="price-current">${currency.format(actualPrice)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="price-stack">
+      <div class="price-current-card">
+        <div class="price-current-copy">
+          <span class="price-label">Current Price</span>
+          <span class="price-current">${currency.format(netPrice)}</span>
+        </div>
+        <span class="discount-pill">${discountPercent}% off</span>
+      </div>
+      <div class="price-support-row">
+        <span class="price-original-group">
+          <span class="price-mini-label">Was</span>
+          <span class="price-original">${currency.format(actualPrice)}</span>
+        </span>
+        <span class="price-save-pill">You save ${currency.format(savings)}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderModalPriceMarkup(product) {
+  const actualPrice = getActualPrice(product);
+  const discountPercent = getDiscountPercent(product);
+  const netPrice = getNetPrice(product);
+  const savings = getSavings(product);
+
+  if (!discountPercent) {
+    return `
+      <div class="modal-price-board">
+        <div class="modal-price-highlight">
+          <span class="price-label">Price</span>
+          <div class="modal-price-main">${currency.format(actualPrice || netPrice)}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="modal-price-board">
+      <div class="modal-price-highlight">
+        <span class="price-label">Current Price</span>
+        <span class="modal-price-main">${currency.format(netPrice)}</span>
+      </div>
+      <span class="discount-pill">${discountPercent}% off</span>
+    </div>
+    <div class="modal-price-meta">
+      <span class="modal-price-meta-item">
+        <span class="price-mini-label">Original Price</span>
+        <strong>${currency.format(actualPrice)}</strong>
+      </span>
+      <span class="modal-price-meta-item">
+        <span class="price-mini-label">You Save</span>
+        <strong>${currency.format(savings)}</strong>
+      </span>
+    </div>
+  `;
+}
+
 function buildCategoryOptions() {
   const categories = ["all", ...new Set(PRODUCTS.map((p) => p.category))];
   categorySelect.innerHTML = categories
@@ -91,8 +203,8 @@ function renderProducts() {
             <p class="eyebrow">${item.category}</p>
             <div class="card-head">
               <h3>${item.title}</h3>
-              <span class="price">${currency.format(item.priceInr)}</span>
             </div>
+            ${renderPriceMarkup(item)}
             <span class="status-badge ${statusClass(item.status)}">${statusLabel(item.status)}</span>
             <p class="card-copy">${item.description}</p>
             <div class="card-actions">
@@ -169,7 +281,7 @@ function openModal(productId) {
   activeImageIndex = 0;
   modalCategory.textContent = product.category;
   modalTitle.textContent = product.title;
-  modalPrice.textContent = currency.format(product.priceInr);
+  modalPrice.innerHTML = renderModalPriceMarkup(product);
   modalStatus.textContent = statusLabel(product.status);
   modalStatus.className = `status-badge ${statusClass(product.status)}`;
   modalDescription.textContent = product.description;
@@ -284,6 +396,10 @@ function setupEvents() {
 }
 
 function init() {
+  if (!productGrid || !searchInput || !categorySelect || !statusSelect || !modal) {
+    return;
+  }
+
   buildCategoryOptions();
   renderProducts();
   setupEvents();

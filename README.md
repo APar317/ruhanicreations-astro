@@ -6,10 +6,12 @@ For infrastructure/configuration details, see `PROJECT_PLAN.md`.
 
 ## Current pages
 
-- `index.html` - Home + product catalog
+- `index.html` - Home page
+- `catalog.html` - Product catalog
 - `about.html` - About page
 - `contact.html` - Contact page
 - `faq.html` - FAQ page
+- `coming-soon.html` - Upcoming categories
 - `terms.html` - Terms and conditions
 - `privacy.html` - Privacy policy
 - `401.html` - Unauthorized page
@@ -22,14 +24,14 @@ Standard website files included:
 
 ## Core features
 
-- Sticky top header navigation
+- Sticky top header navigation with grouped resources
 - Footer links on every page
 - Product cards with:
   - multiple photos per product
   - description
-  - price in INR
+  - original price, discount, and net price in INR
   - stock status (`in-stock` / `sold`)
-- Search and filters on the home catalog
+- Search and filters on the catalog page
 - Product details modal gallery with left/right image navigation and zoom controls
 - Mobile responsive layout
 
@@ -41,7 +43,9 @@ Each product needs:
 
 - `title`
 - `category`
-- `priceInr`
+- `actualPriceInr`
+- `discountPercent`
+- `netPriceInr` (optional override; otherwise calculated automatically)
 - `status`
 - `description`
 - `images` (image paths, e.g. `assets/products/women/<file>.PNG`)

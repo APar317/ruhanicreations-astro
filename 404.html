@@ -4,54 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 Not Found | Ruhani Creations by Sumati</title>
-  <meta name="description" content="404 not found page for Ruhani Creations by Sumati.">
+  <meta name="description" content="404 page for Ruhani Creations by Sumati.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="favicon.ico?v=20260228" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260228">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260228">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260228">
+  <meta name="theme-color" content="#0f5e5f">
+  <link rel="manifest" href="site.webmanifest?v=20260317">
+  <link rel="icon" href="favicon.ico?v=20260317" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260317">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260317">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260317">
 </head>
 <body class="layout">
-  <header class="sidebar">
-    <a class="brand" href="index.html">
-      <img class="brand-logo" src="assets/logo_colorful_header.PNG" alt="Ruhani Creations by Sumati">
-    </a>
-    <nav class="side-nav" aria-label="Primary navigation">
-      <a class="menu-link" href="index.html">Home</a>
-      <a class="menu-link" href="index.html#catalog">Catalog</a>
-      <a class="menu-link" href="about.html">About</a>
-      <a class="menu-link" href="contact.html">Contact</a>
-      <a class="menu-link" href="faq.html">FAQ</a>
-      <a class="menu-link" href="terms.html">Terms</a>
-      <a class="menu-link" href="privacy.html">Privacy</a>
-    </nav>
+  <header class="site-header">
+    <div class="header-shell container">
+      <a class="brand-lockup" href="index.html" aria-label="Ruhani Creations by Sumati home">
+        <span class="brand-emblem-shell">
+          <img class="brand-emblem" src="assets/generated/rcbs-emblem-dark.png" alt="Ruhani Creations by Sumati emblem">
+        </span>
+        <span class="brand-wordmark">
+          <span class="brand-wordmark-main"><span class="brand-wordmark-name">Ruhani</span><span class="brand-wordmark-accent">Creations</span></span>
+          <span class="brand-wordmark-subline"><span class="brand-wordmark-line"></span><span class="brand-wordmark-sub">by Sumati</span><span class="brand-wordmark-line"></span></span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="menu-link" href="index.html">Home</a>
+        <a class="menu-link" href="catalog.html">Catalog</a>
+        <div class="nav-group">
+          <a class="menu-link has-dropdown" href="about.html">About Us</a>
+          <div class="nav-dropdown">
+            <a href="about.html#founder">Founder</a>
+            <a href="about.html#brand">Brand</a>
+          </div>
+        </div>
+        <a class="menu-link" href="coming-soon.html">Coming Soon</a>
+        <div class="nav-group">
+          <span class="menu-link has-dropdown">Resources</span>
+          <div class="nav-dropdown">
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+            <a href="terms.html">Terms &amp; Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+          </div>
+        </div>
+      </nav>
+    </div>
   </header>
+
   <div class="content-area">
     <main class="content-main status-page">
       <section class="status-box">
         <p class="status-code">404</p>
         <h1>Page Not Found</h1>
-        <p>The page you are looking for does not exist or has moved.</p>
-        <a class="button primary" href="index.html">Back to Home</a>
+        <p>The page you are trying to open does not exist, may have moved, or may not be published yet.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="index.html">Back to Home</a>
+          <a class="button ghost" href="catalog.html">Open Catalog</a>
+        </div>
       </section>
     </main>
+
     <footer class="site-footer">
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="faq.html">FAQ</a>
-        <a href="terms.html">Terms & Conditions</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="https://www.instagram.com/ruhani.creations/" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://www.facebook.com/share/1BF1LsCzts/?mibextid=wwXIfr" target="_blank" rel="noreferrer">Facebook</a>
+      <div class="container footer-shell">
+        <div class="footer-top">
+          <div>
+            <div class="footer-title">Ruhani Creations by Sumati</div>
+            <div class="footer-meta">Handcrafted Indian designer wear from Agra.</div>
+          </div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="catalog.html">Catalog</a>
+            <a href="about.html">About</a>
+            <a href="coming-soon.html">Coming Soon</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+          </div>
+        </div>
+        <p class="footer-meta">© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
       </div>
-      <p>© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
     </footer>
   </div>
+
   <script src="site.js"></script>
 </body>
 </html>
