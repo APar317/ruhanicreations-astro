@@ -1,12 +1,17 @@
+// Pricing model:
+// - `actualPriceInr`: listed selling price before discount
+// - `discountPercent`: discount to apply on the listed price
+// - `netPriceInr` (optional): final payable price if you want to override auto-calculation
 const PRODUCTS = [
   {
     id: "p-001",
     title: "Gulmohar Festive Kurta Set",
     category: "Women",
-    priceInr: 3499,
+    actualPriceInr: 3999,
+    discountPercent: 12,
     status: "in-stock",
     description:
-      "Estimated price. Cotton festive kurta set with printed yoke and sleeve-border accents. Suitable for day events, puja gatherings, and semi-formal occasions.",
+      "Cotton festive kurta set with printed yoke and sleeve-border accents. Ideal for day events, pooja gatherings, and easy festive dressing.",
     images: [
       "assets/products/women/11218B92-4841-4127-A73F-2F0D846DE3D3.PNG",
       "assets/products/women/8FD76FCB-7BAF-43A5-BBA9-A973D8E36005.PNG",
@@ -17,10 +22,11 @@ const PRODUCTS = [
     id: "p-002",
     title: "Ivory Heritage Kurta Set",
     category: "Women",
-    priceInr: 3899,
+    actualPriceInr: 4599,
+    discountPercent: 15,
     status: "in-stock",
     description:
-      "Estimated price. Straight-cut festive kurta sets with heritage-inspired embroidery and contrast bottoms. Designed for family functions and festive dinners.",
+      "Straight-cut festive kurta set with heritage-inspired embroidery and contrast bottoms. Designed for family functions, gifting, and refined occasion wear.",
     images: [
       "assets/products/women/3DBC2DFE-D50D-4189-9A92-A477BFE068AE.PNG",
       "assets/products/women/B180BA13-5B40-409E-8D9E-3928E7CF80B5.PNG",
@@ -31,10 +37,11 @@ const PRODUCTS = [
     id: "p-003",
     title: "Aqua Daywear Kurta Set",
     category: "Women",
-    priceInr: 3199,
+    actualPriceInr: 3599,
+    discountPercent: 10,
     status: "in-stock",
     description:
-      "Estimated price. Lightweight kurta sets in aqua and white tones with printed neck panels and clean silhouettes for everyday festive styling.",
+      "Lightweight kurta set in aqua and white tones with a printed neck panel and clean silhouette for daily festive styling and comfortable daywear.",
     images: [
       "assets/products/women/75959142-46BB-4BDB-965E-7B746EDDA380.PNG",
       "assets/products/women/ADA18A44-4E83-47B3-A90C-BBED3409CB77.PNG",
@@ -45,10 +52,11 @@ const PRODUCTS = [
     id: "p-004",
     title: "Handpainted Floral Suit Set",
     category: "Women",
-    priceInr: 4799,
+    actualPriceInr: 5499,
+    discountPercent: 12,
     status: "in-stock",
     description:
-      "Estimated price. Curated floral suit sets with matching dupatta styling and artisanal print/paint accents for festive and gifting season collections.",
+      "Curated floral suit set with matching dupatta styling and hand-finished accents created for festive gifting, intimate celebrations, and statement daytime looks.",
     images: [
       "assets/products/women/6F62AB1B-3014-472C-BD00-0A8F0C3FF87B.PNG",
       "assets/products/women/EB653DC3-D31F-4D15-802D-BFE57B2013B2.PNG",
@@ -59,10 +67,11 @@ const PRODUCTS = [
     id: "p-005",
     title: "Signature Dupatta and Kurta Edit",
     category: "Women",
-    priceInr: 5299,
+    actualPriceInr: 5999,
+    discountPercent: 10,
     status: "sold",
     description:
-      "Estimated price. Mixed edit of kurta and dupatta looks focused on statement drapes and soft festive color palettes for premium festive styling trials.",
+      "Curated kurta and dupatta edit focused on statement drapes, soft festive palettes, and premium finishing suited for elevated festive styling.",
     images: [
       "assets/products/women/63D2FB4C-1591-4900-91F6-BBEA63B34B97.PNG",
       "assets/products/women/A3988E07-AF2A-4C5F-B1A9-BA419DEB428F.PNG",
@@ -74,10 +83,11 @@ const PRODUCTS = [
     id: "p-006",
     title: "Little Mehfil Lehenga Set",
     category: "Girl Child",
-    priceInr: 2499,
+    actualPriceInr: 2799,
+    discountPercent: 10,
     status: "in-stock",
     description:
-      "Estimated price. Occasion-ready lehenga sets for girls with bright festive tones, dupatta styling, and dance-friendly silhouettes for celebrations.",
+      "Occasion-ready lehenga set for girls with bright festive tones, dupatta styling, and dance-friendly silhouettes for celebrations and family events.",
     images: [
       "assets/products/girl-child/4362C4B8-75A4-4205-A0F5-6FDB97AA9647.PNG",
       "assets/products/girl-child/4F23D563-6533-493D-ABBE-60EF1F292391.PNG",
@@ -89,10 +99,11 @@ const PRODUCTS = [
     id: "p-007",
     title: "Junior Festive Dance Edit",
     category: "Girl Child",
-    priceInr: 2199,
+    actualPriceInr: 2499,
+    discountPercent: 12,
     status: "in-stock",
     description:
-      "Estimated price. Traditional festive sets for school functions and family events with vibrant colors and comfortable movement-friendly fits.",
+      "Traditional festive set for school functions and family events with vibrant color, comfortable movement, and styling that still feels special on camera.",
     images: [
       "assets/products/girl-child/A791A0DC-D2D8-48F8-B72A-DD9A467BBCF6.PNG",
       "assets/products/girl-child/C31BACC5-01D8-4EB7-BCF0-8FB7684871BD.PNG",
@@ -104,10 +115,11 @@ const PRODUCTS = [
     id: "p-008",
     title: "Everyday Kids Kurta and Frock Set",
     category: "Girl Child",
-    priceInr: 1499,
+    actualPriceInr: 1699,
+    discountPercent: 12,
     status: "sold",
     description:
-      "Estimated price. Soft everyday festive wear for young girls with easy fits, breathable fabrics, and playful color combinations for comfort-first styling.",
+      "Soft everyday festive wear for young girls with easy fits, breathable fabric, and playful colors created for comfort-first styling.",
     images: [
       "assets/products/girl-child/03A00C99-BC86-4955-BF60-48416B4F1BD8.PNG",
       "assets/products/girl-child/1C8A1897-6346-4006-8ED2-FC2748DBF13F.PNG",

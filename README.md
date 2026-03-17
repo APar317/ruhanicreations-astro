@@ -6,10 +6,12 @@ For infrastructure/configuration details, see `PROJECT_PLAN.md`.
 
 ## Current pages
 
-- `index.html` - Home + product catalog
+- `index.html` - Home page
+- `catalog.html` - Product catalog
 - `about.html` - About page
 - `contact.html` - Contact page
 - `faq.html` - FAQ page
+- `coming-soon.html` - Upcoming categories
 - `terms.html` - Terms and conditions
 - `privacy.html` - Privacy policy
 - `401.html` - Unauthorized page
@@ -22,15 +24,15 @@ Standard website files included:
 
 ## Core features
 
-- Left sidebar navigation
+- Sticky top header navigation with grouped resources
 - Footer links on every page
 - Product cards with:
   - multiple photos per product
   - description
-  - price in INR
+  - original price, discount, and net price in INR
   - stock status (`in-stock` / `sold`)
-- Search and filters on the home catalog
-- Product details modal gallery
+- Search and filters on the catalog page
+- Product details modal gallery with left/right image navigation and zoom controls
 - Mobile responsive layout
 
 ## Product updates
@@ -41,7 +43,9 @@ Each product needs:
 
 - `title`
 - `category`
-- `priceInr`
+- `actualPriceInr`
+- `discountPercent`
+- `netPriceInr` (optional override; otherwise calculated automatically)
 - `status`
 - `description`
 - `images` (image paths, e.g. `assets/products/women/<file>.PNG`)
@@ -57,10 +61,12 @@ For this static site, prefer storing product images in the repository under `ass
 ## Local run
 
 ```bash
-python3 -m http.server 8080
+python3 serve_local.py --port 8080
 ```
 
 Open `http://localhost:8080`.
+
+For missing URLs (example: `/notapage.html`), this local server returns your branded `404.html` page.
 
 ## Deployment (free)
 
