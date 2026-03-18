@@ -4,51 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalog | Ruhani Creations by Sumati</title>
-  <meta name="description" content="Browse the Ruhani Creations by Sumati catalog with product photos, original price, savings, and current offer details.">
+  <meta name="description" content="Browse the Ruhani Creations by Sumati catalog for design-led clothing, hand-painted accents, sold references, and ready-to-order pieces.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <meta name="theme-color" content="#0f5e5f">
-  <link rel="manifest" href="site.webmanifest?v=20260317">
-  <link rel="icon" href="favicon.ico?v=20260317" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260317">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260317">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260317">
+  <link rel="manifest" href="site.webmanifest?v=20260319">
+  <link rel="icon" href="favicon.ico?v=20260319" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260319">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260319">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260319">
 </head>
 <body class="layout">
   <header class="site-header">
-    <div class="header-shell container">
+    <div class="container header-shell">
       <a class="brand-lockup" href="index.html" aria-label="Ruhani Creations by Sumati home">
         <span class="brand-emblem-shell">
           <img class="brand-emblem" src="assets/generated/rcbs-emblem-dark.png" alt="Ruhani Creations by Sumati emblem">
         </span>
-        <span class="brand-wordmark">
+        <span class="brand-wordmark" aria-label="Ruhani Creations by Sumati">
           <span class="brand-wordmark-main"><span class="brand-wordmark-name">Ruhani</span><span class="brand-wordmark-accent">Creations</span></span>
           <span class="brand-wordmark-subline"><span class="brand-wordmark-line"></span><span class="brand-wordmark-sub">by Sumati</span><span class="brand-wordmark-line"></span></span>
         </span>
       </a>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a class="menu-link" href="index.html">Home</a>
-        <a class="menu-link active" href="catalog.html">Catalog</a>
-        <div class="nav-group">
-          <a class="menu-link has-dropdown" href="about.html">About Us</a>
-          <div class="nav-dropdown">
-            <a href="about.html#founder">Founder</a>
-            <a href="about.html#brand">Brand</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div id="site-nav-panel" class="site-nav-panel">
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a class="menu-link" href="index.html">Home</a>
+          <a class="menu-link active" href="catalog.html">Catalog</a>
+          <div class="nav-group">
+            <a class="menu-link has-dropdown" href="about.html">About Us</a>
+            <div class="nav-dropdown">
+              <a href="about.html#founder">Founder</a>
+              <a href="about.html#brand">Brand</a>
+            </div>
           </div>
-        </div>
-        <a class="menu-link" href="coming-soon.html">Coming Soon</a>
-        <div class="nav-group">
-          <span class="menu-link has-dropdown">Resources</span>
-          <div class="nav-dropdown">
-            <a href="contact.html">Contact</a>
-            <a href="faq.html">FAQ</a>
-            <a href="terms.html">Terms &amp; Conditions</a>
-            <a href="privacy.html">Privacy Policy</a>
+          <a class="menu-link" href="coming-soon.html">Coming Soon</a>
+          <div class="nav-group">
+            <span class="menu-link has-dropdown">Resources</span>
+            <div class="nav-dropdown">
+              <a href="contact.html">Contact</a>
+              <a href="faq.html">FAQ</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="privacy.html">Privacy Policy</a>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+        <a class="button secondary header-order-link" href="how-to-order.html">How to Order</a>
+      </div>
     </div>
   </header>
 
@@ -58,10 +66,14 @@
         <div class="container page-hero-grid">
           <div>
             <p class="eyebrow">Catalog</p>
-            <h1>Browse current pieces with full pricing clarity.</h1>
+            <h1>Browse available pieces, reference archives, and design-led collections.</h1>
             <p class="page-intro">
-              Every product card is designed to show the original price, the current offer, and exactly how much the customer saves. Open any product for multiple images, zoom, and a fuller description.
+              This catalog includes ready-to-order items as well as sold references that remain on the website for inspiration. Open any product to see multiple images, zoom in, and review pricing before you connect with the studio.
             </p>
+            <div class="hero-actions">
+              <a class="button primary" href="how-to-order.html">See How Ordering Works</a>
+              <a class="button ghost" href="contact.html">Need studio help?</a>
+            </div>
           </div>
           <div class="brand-mark-card">
             <img class="page-mark" src="assets/generated/rcbs-emblem-dark.png" alt="Ruhani Creations by Sumati emblem">
@@ -73,18 +85,18 @@
         <section class="section-shell">
           <div class="detail-grid">
             <article class="detail-card">
-              <h3>How to read pricing</h3>
+              <h3>How to read the catalog</h3>
               <ul>
-                <li><strong>Original price</strong> shows the full listed value of the outfit.</li>
-                <li><strong>Offer badge</strong> highlights the current promotional percentage.</li>
-                <li><strong>Current price</strong> is what the customer would pay after the displayed offer.</li>
+                <li><strong>Offer price</strong> shows the amount we would discuss for the currently available item.</li>
+                <li><strong>Marked price</strong> shows the pre-discount catalog price where an offer is being highlighted.</li>
+                <li><strong>Reference only</strong> marks sold pieces that remain visible for styling inspiration and archive viewing.</li>
               </ul>
             </article>
             <article class="detail-card">
-              <h3>Need help before ordering?</h3>
-              <p>Shortlist your preferred looks and reach out for size availability, final confirmation, visit timings, and delivery support.</p>
+              <h3>Ordering is now built into the catalog</h3>
+              <p>Available items now include an <strong>Order now</strong> action. It opens a small window with WhatsApp, email, and Instagram options so the product code and catalog price move with you into the conversation.</p>
               <div class="contact-links">
-                <a class="button primary" href="https://wa.me/919105114152" target="_blank" rel="noreferrer">WhatsApp the studio</a>
+                <a class="button primary" href="how-to-order.html">How to Order</a>
                 <a class="button ghost" href="contact.html">View all contact channels</a>
               </div>
             </article>
@@ -119,25 +131,53 @@
 
     <footer class="site-footer">
       <div class="container footer-shell">
-        <div class="footer-top">
-          <div>
-            <div class="footer-title">Ruhani Creations by Sumati</div>
-            <div class="footer-meta">Handcrafted Indian designer wear from Agra.</div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img class="footer-logo" src="assets/RCBS_Logo_light.PNG" alt="Ruhani Creations by Sumati light logo">
+            <p class="footer-copy">Ruhani Creations by Sumati is a design-led studio from Agra creating festive clothing, hand-painted accents, curated gifting, and lifestyle pieces that feel personal and lasting.</p>
+            <div class="footer-socials">
+              <a href="https://wa.me/919105114152" target="_blank" rel="noreferrer">WhatsApp</a>
+              <a href="https://www.instagram.com/ruhani.creations/" target="_blank" rel="noreferrer">Instagram</a>
+              <a href="mailto:order@ruhanicreationsbysumati.com">Email</a>
+            </div>
           </div>
-          <div class="footer-links">
+          <div class="footer-column">
+            <p class="footer-heading">Explore</p>
             <a href="index.html">Home</a>
             <a href="catalog.html">Catalog</a>
-            <a href="about.html">About</a>
             <a href="coming-soon.html">Coming Soon</a>
+            <a href="how-to-order.html">How to Order</a>
+          </div>
+          <div class="footer-column">
+            <p class="footer-heading">About Us</p>
+            <a href="about.html">Overview</a>
+            <a href="about.html#founder">Founder</a>
+            <a href="about.html#brand">Brand Story</a>
+            <a href="about.html#values">Design Values</a>
+          </div>
+          <div class="footer-column">
+            <p class="footer-heading">Resources</p>
             <a href="contact.html">Contact</a>
             <a href="faq.html">FAQ</a>
-            <a href="terms.html">Terms</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="https://wa.me/919105114152" target="_blank" rel="noreferrer">WhatsApp</a>
-            <a href="https://www.instagram.com/ruhani.creations/" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="terms.html">Terms &amp; Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+          </div>
+          <div class="footer-column">
+            <p class="footer-heading">Studio</p>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Ruhani%20Creations%20by%20Sumati%2C%20B27%2C%20Sarlabagh%20Extension%2C%20DayalBagh%2C%20Agra%2C%20Uttar%20Pradesh%20282005" target="_blank" rel="noreferrer">DayalBagh, Agra</a>
+            <a href="tel:+919105114152">+91 91051 14152</a>
+            <a href="mailto:support@ruhanicreationsbysumati.com">support@ruhanicreationsbysumati.com</a>
+            <a href="mailto:order@ruhanicreationsbysumati.com">order@ruhanicreationsbysumati.com</a>
           </div>
         </div>
-        <p class="footer-meta">© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
+        <div class="footer-bottom">
+          <p>© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
       </div>
     </footer>
   </div>
@@ -161,9 +201,68 @@
       <div class="modal-details">
         <p id="modal-category" class="eyebrow"></p>
         <h3 id="modal-title"></h3>
+        <p id="modal-code" class="modal-code"></p>
         <div id="modal-price" class="modal-price"></div>
         <p id="modal-status" class="status-badge"></p>
         <p id="modal-description" class="modal-description"></p>
+        <div class="modal-actions">
+          <button id="order-from-modal" class="button primary" type="button">Order this item</button>
+          <a class="button ghost" href="how-to-order.html">Ordering help</a>
+        </div>
+      </div>
+    </article>
+  </dialog>
+
+  <dialog id="order-modal" class="modal">
+    <article class="modal-card order-modal-card">
+      <button id="close-order-modal" class="icon-button" type="button" aria-label="Close ordering options">×</button>
+      <div class="order-summary-panel">
+        <div class="order-product-preview">
+          <img id="order-product-image" alt="">
+        </div>
+        <span class="order-summary-chip">Ready to connect</span>
+        <h3 id="order-product-title"></h3>
+        <p class="modal-code">Product code <span id="order-product-code"></span></p>
+        <div class="order-summary-meta">
+          <div class="order-summary-meta-item">
+            <span class="price-mini-label">Catalog Price</span>
+            <strong id="order-product-price"></strong>
+          </div>
+          <div class="order-summary-meta-item">
+            <span class="price-mini-label">Status</span>
+            <strong id="order-product-status"></strong>
+          </div>
+        </div>
+      </div>
+      <div class="order-channel-panel">
+        <p class="eyebrow">Choose your channel</p>
+        <h3>We prepare the product details for you before the conversation begins.</h3>
+        <p class="order-copy">WhatsApp and email open with the product code, product name, and catalog price already added. Instagram opens our profile after copying the same details so you can paste them into your DM.</p>
+        <div class="order-channel-grid">
+          <a id="order-whatsapp" class="order-channel-button" href="#" target="_blank" rel="noreferrer">
+            <span class="order-channel-icon icon-whatsapp">WA</span>
+            <span class="order-channel-copy">
+              <strong>WhatsApp</strong>
+              <span>Fastest route for product availability, sizing help, and final order coordination.</span>
+            </span>
+          </a>
+          <a id="order-email" class="order-channel-button" href="#">
+            <span class="order-channel-icon icon-email">@</span>
+            <span class="order-channel-copy">
+              <strong>Email</strong>
+              <span>Best when you want a written thread for orders, gifting notes, or repeat coordination.</span>
+            </span>
+          </a>
+          <button id="order-instagram" class="order-channel-button" type="button">
+            <span class="order-channel-icon icon-instagram">IG</span>
+            <span class="order-channel-copy">
+              <strong>Instagram</strong>
+              <span>We copy the product details first, then open the profile so you can paste them into your message.</span>
+            </span>
+          </button>
+        </div>
+        <p class="order-note">Sold items remain in the catalog for reference and inspiration, but only currently available items show the ordering flow.</p>
+        <p id="order-feedback" class="order-feedback" aria-live="polite"></p>
       </div>
     </article>
   </dialog>

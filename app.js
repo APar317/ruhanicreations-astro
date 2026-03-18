@@ -16,14 +16,29 @@ const zoomInBtn = document.getElementById("zoom-in");
 const modalThumbs = document.getElementById("modal-thumbnails");
 const modalCategory = document.getElementById("modal-category");
 const modalTitle = document.getElementById("modal-title");
+const modalCode = document.getElementById("modal-code");
 const modalPrice = document.getElementById("modal-price");
 const modalStatus = document.getElementById("modal-status");
 const modalDescription = document.getElementById("modal-description");
+const orderFromModalBtn = document.getElementById("order-from-modal");
+
+const orderModal = document.getElementById("order-modal");
+const closeOrderModalBtn = document.getElementById("close-order-modal");
+const orderProductImage = document.getElementById("order-product-image");
+const orderProductTitle = document.getElementById("order-product-title");
+const orderProductCode = document.getElementById("order-product-code");
+const orderProductPrice = document.getElementById("order-product-price");
+const orderProductStatus = document.getElementById("order-product-status");
+const orderWhatsapp = document.getElementById("order-whatsapp");
+const orderEmail = document.getElementById("order-email");
+const orderInstagram = document.getElementById("order-instagram");
+const orderFeedback = document.getElementById("order-feedback");
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 3;
 const ZOOM_STEP = 0.25;
 
 let activeModalProduct = null;
+let activeOrderProduct = null;
 let activeImageIndex = 0;
 let zoomLevel = ZOOM_MIN;
 
@@ -34,7 +49,7 @@ const currency = new Intl.NumberFormat("en-IN", {
 });
 
 function statusLabel(status) {
-  return status === "sold" ? "Sold" : "In Stock";
+  return status === "sold" ? "Reference Only" : "Available";
 }
 
 function statusClass(status) {
@@ -43,6 +58,10 @@ function statusClass(status) {
 
 function getActualPrice(product) {
   return typeof product.actualPriceInr === "number" ? product.actualPriceInr : 0;
+}
+
+function formatProductCode(product) {
+  return String(product.id || "").toUpperCase();
 }
 
 function getDiscountPercent(product) {
@@ -63,6 +82,10 @@ function getSavings(product) {
   return Math.max(0, actualPrice - netPrice);
 }
 
+function getDisplayPrice(product) {
+  return getDiscountPercent(product) ? getNetPrice(product) : getActualPrice(product) || getNetPrice(product);
+}
+
 function renderPriceMarkup(product) {
   const actualPrice = getActualPrice(product);
   const discountPercent = getDiscountPercent(product);
@@ -74,7 +97,7 @@ function renderPriceMarkup(product) {
       <div class="price-stack">
         <div class="price-current-card">
           <div class="price-current-copy">
-            <span class="price-label">Price</span>
+            <span class="price-label">Catalog Price</span>
             <span class="price-current">${currency.format(netPrice)}</span>
           </div>
         </div>
@@ -87,7 +110,7 @@ function renderPriceMarkup(product) {
       <div class="price-stack">
         <div class="price-current-card">
           <div class="price-current-copy">
-            <span class="price-label">Price</span>
+            <span class="price-label">Catalog Price</span>
             <span class="price-current">${currency.format(actualPrice)}</span>
           </div>
         </div>
@@ -99,14 +122,14 @@ function renderPriceMarkup(product) {
     <div class="price-stack">
       <div class="price-current-card">
         <div class="price-current-copy">
-          <span class="price-label">Current Price</span>
+          <span class="price-label">Offer Price</span>
           <span class="price-current">${currency.format(netPrice)}</span>
         </div>
         <span class="discount-pill">${discountPercent}% off</span>
       </div>
       <div class="price-support-row">
         <span class="price-original-group">
-          <span class="price-mini-label">Was</span>
+          <span class="price-mini-label">Marked Price</span>
           <span class="price-original">${currency.format(actualPrice)}</span>
         </span>
         <span class="price-save-pill">You save ${currency.format(savings)}</span>
@@ -125,7 +148,7 @@ function renderModalPriceMarkup(product) {
     return `
       <div class="modal-price-board">
         <div class="modal-price-highlight">
-          <span class="price-label">Price</span>
+          <span class="price-label">Catalog Price</span>
           <div class="modal-price-main">${currency.format(actualPrice || netPrice)}</div>
         </div>
       </div>
@@ -135,14 +158,14 @@ function renderModalPriceMarkup(product) {
   return `
     <div class="modal-price-board">
       <div class="modal-price-highlight">
-        <span class="price-label">Current Price</span>
+        <span class="price-label">Offer Price</span>
         <span class="modal-price-main">${currency.format(netPrice)}</span>
       </div>
       <span class="discount-pill">${discountPercent}% off</span>
     </div>
     <div class="modal-price-meta">
       <span class="modal-price-meta-item">
-        <span class="price-mini-label">Original Price</span>
+        <span class="price-mini-label">Marked Price</span>
         <strong>${currency.format(actualPrice)}</strong>
       </span>
       <span class="modal-price-meta-item">
@@ -196,11 +219,15 @@ function renderProducts() {
   productGrid.innerHTML = items
     .map((item) => {
       const firstImage = item.images[0] || "";
+      const canOrder = item.status === "in-stock";
       return `
         <article class="card">
           <img src="${firstImage}" alt="${item.title}">
           <div class="card-body">
-            <p class="eyebrow">${item.category}</p>
+            <div class="card-meta">
+              <p class="eyebrow">${item.category}</p>
+              <span class="product-code">Code ${formatProductCode(item)}</span>
+            </div>
             <div class="card-head">
               <h3>${item.title}</h3>
             </div>
@@ -211,6 +238,13 @@ function renderProducts() {
               <button class="button ghost view-details" type="button" data-id="${item.id}">
                 View details
               </button>
+              ${
+                canOrder
+                  ? `<button class="button primary order-item" type="button" data-id="${item.id}">
+                Order now
+              </button>`
+                  : ""
+              }
             </div>
           </div>
         </article>
@@ -281,10 +315,16 @@ function openModal(productId) {
   activeImageIndex = 0;
   modalCategory.textContent = product.category;
   modalTitle.textContent = product.title;
+  modalCode.textContent = `Product code ${formatProductCode(product)}`;
   modalPrice.innerHTML = renderModalPriceMarkup(product);
   modalStatus.textContent = statusLabel(product.status);
   modalStatus.className = `status-badge ${statusClass(product.status)}`;
   modalDescription.textContent = product.description;
+  if (orderFromModalBtn) {
+    orderFromModalBtn.dataset.id = product.id;
+    orderFromModalBtn.disabled = product.status !== "in-stock";
+    orderFromModalBtn.textContent = product.status === "in-stock" ? "Order this item" : "Reference only";
+  }
   updateImageNavigationState();
   setActiveModalImage(0);
   modal.showModal();
@@ -299,6 +339,70 @@ function closeModal() {
   resetZoom();
 }
 
+function buildOrderMessage(product) {
+  return [
+    "Hello Ruhani Creations by Sumati,",
+    "",
+    "I would like to enquire about this item:",
+    `Product code: ${formatProductCode(product)}`,
+    `Product name: ${product.title}`,
+    `Catalog price: ${currency.format(getDisplayPrice(product))}`,
+    `Status: ${statusLabel(product.status)}`,
+    "",
+    "Please share availability, sizing guidance, and the next step to order.",
+    "",
+    "Thank you."
+  ].join("\n");
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => false);
+  }
+
+  const probe = document.createElement("textarea");
+  probe.value = text;
+  probe.setAttribute("readonly", "");
+  probe.style.position = "absolute";
+  probe.style.left = "-9999px";
+  document.body.appendChild(probe);
+  probe.select();
+  const copied = document.execCommand("copy");
+  document.body.removeChild(probe);
+  return Promise.resolve(copied);
+}
+
+function openOrderModal(productId) {
+  if (!orderModal) return;
+
+  const product = PRODUCTS.find((item) => item.id === productId);
+  if (!product || product.status !== "in-stock") return;
+
+  activeOrderProduct = product;
+  const orderMessage = buildOrderMessage(product);
+  const productPrice = currency.format(getDisplayPrice(product));
+
+  orderProductImage.src = product.images[0] || "";
+  orderProductImage.alt = product.title;
+  orderProductTitle.textContent = product.title;
+  orderProductCode.textContent = formatProductCode(product);
+  orderProductPrice.textContent = productPrice;
+  orderProductStatus.textContent = statusLabel(product.status);
+  orderWhatsapp.href = `https://wa.me/919105114152?text=${encodeURIComponent(orderMessage)}`;
+  orderEmail.href =
+    `mailto:order@ruhanicreationsbysumati.com?subject=${encodeURIComponent(`Order enquiry - ${formatProductCode(product)}`)}` +
+    `&body=${encodeURIComponent(orderMessage)}`;
+  orderFeedback.textContent = "";
+  orderModal.showModal();
+}
+
+function closeOrderModal() {
+  if (orderModal?.open) {
+    orderModal.close();
+  }
+  activeOrderProduct = null;
+}
+
 function setupEvents() {
   searchInput.addEventListener("input", renderProducts);
   categorySelect.addEventListener("change", renderProducts);
@@ -306,11 +410,24 @@ function setupEvents() {
 
   productGrid.addEventListener("click", (event) => {
     const button = event.target.closest(".view-details");
-    if (!button) return;
-    openModal(button.dataset.id);
+    const orderButton = event.target.closest(".order-item");
+
+    if (button) {
+      openModal(button.dataset.id);
+      return;
+    }
+
+    if (orderButton) {
+      openOrderModal(orderButton.dataset.id);
+    }
   });
 
   closeModalBtn.addEventListener("click", closeModal);
+  orderFromModalBtn?.addEventListener("click", () => {
+    if (!activeModalProduct || activeModalProduct.status !== "in-stock") return;
+    closeModal();
+    openOrderModal(activeModalProduct.id);
+  });
 
   prevImageBtn.addEventListener("click", () => moveModalImage(-1));
   nextImageBtn.addEventListener("click", () => moveModalImage(1));
@@ -327,6 +444,18 @@ function setupEvents() {
       rect.left <= event.clientX &&
       event.clientX <= rect.left + rect.width;
     if (!inDialog) closeModal();
+  });
+
+  closeOrderModalBtn?.addEventListener("click", closeOrderModal);
+
+  orderModal?.addEventListener("click", (event) => {
+    const rect = orderModal.getBoundingClientRect();
+    const inDialog =
+      rect.top <= event.clientY &&
+      event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX &&
+      event.clientX <= rect.left + rect.width;
+    if (!inDialog) closeOrderModal();
   });
 
   modalThumbs.addEventListener("click", (event) => {
@@ -392,6 +521,16 @@ function setupEvents() {
       event.preventDefault();
       resetZoom();
     }
+  });
+
+  orderInstagram?.addEventListener("click", async () => {
+    if (!activeOrderProduct) return;
+
+    window.open("https://www.instagram.com/ruhani.creations/", "_blank", "noopener");
+    const copied = await copyToClipboard(buildOrderMessage(activeOrderProduct));
+    orderFeedback.textContent = copied
+      ? "Product details copied. Instagram opened in a new tab so you can paste them into your message."
+      : "Instagram opened in a new tab. Please copy the product code and catalog price manually.";
   });
 }
 

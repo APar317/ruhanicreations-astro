@@ -4,51 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ruhani Creations by Sumati</title>
-  <meta name="description" content="Ruhani Creations by Sumati presents handcrafted Indian designer wear, hand-painted edits, studio support, and festive collections from Agra.">
+  <meta name="description" content="Ruhani Creations by Sumati is a design-led creative studio from Agra for occasion wear, hand-painted accents, curated bags, gifting, and wearable art.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <meta name="theme-color" content="#0f5e5f">
-  <link rel="manifest" href="site.webmanifest?v=20260317">
-  <link rel="icon" href="favicon.ico?v=20260317" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260317">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260317">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260317">
+  <link rel="manifest" href="site.webmanifest?v=20260319">
+  <link rel="icon" href="favicon.ico?v=20260319" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260319">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20260319">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260319">
 </head>
 <body class="layout">
   <header class="site-header">
-    <div class="header-shell container">
+    <div class="container header-shell">
       <a class="brand-lockup" href="index.html" aria-label="Ruhani Creations by Sumati home">
         <span class="brand-emblem-shell">
           <img class="brand-emblem" src="assets/generated/rcbs-emblem-dark.png" alt="Ruhani Creations by Sumati emblem">
         </span>
-        <span class="brand-wordmark">
+        <span class="brand-wordmark" aria-label="Ruhani Creations by Sumati">
           <span class="brand-wordmark-main"><span class="brand-wordmark-name">Ruhani</span><span class="brand-wordmark-accent">Creations</span></span>
           <span class="brand-wordmark-subline"><span class="brand-wordmark-line"></span><span class="brand-wordmark-sub">by Sumati</span><span class="brand-wordmark-line"></span></span>
         </span>
       </a>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a class="menu-link active" href="index.html">Home</a>
-        <a class="menu-link" href="catalog.html">Catalog</a>
-        <div class="nav-group">
-          <a class="menu-link has-dropdown" href="about.html">About Us</a>
-          <div class="nav-dropdown">
-            <a href="about.html#founder">Founder</a>
-            <a href="about.html#brand">Brand</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div id="site-nav-panel" class="site-nav-panel">
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a class="menu-link active" href="index.html">Home</a>
+          <a class="menu-link" href="catalog.html">Catalog</a>
+          <div class="nav-group">
+            <a class="menu-link has-dropdown" href="about.html">About Us</a>
+            <div class="nav-dropdown">
+              <a href="about.html#founder">Founder</a>
+              <a href="about.html#brand">Brand</a>
+            </div>
           </div>
-        </div>
-        <a class="menu-link" href="coming-soon.html">Coming Soon</a>
-        <div class="nav-group">
-          <span class="menu-link has-dropdown">Resources</span>
-          <div class="nav-dropdown">
-            <a href="contact.html">Contact</a>
-            <a href="faq.html">FAQ</a>
-            <a href="terms.html">Terms &amp; Conditions</a>
-            <a href="privacy.html">Privacy Policy</a>
+          <a class="menu-link" href="coming-soon.html">Coming Soon</a>
+          <div class="nav-group">
+            <span class="menu-link has-dropdown">Resources</span>
+            <div class="nav-dropdown">
+              <a href="contact.html">Contact</a>
+              <a href="faq.html">FAQ</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="privacy.html">Privacy Policy</a>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+        <a class="button secondary header-order-link" href="how-to-order.html">How to Order</a>
+      </div>
     </div>
   </header>
 
@@ -57,14 +65,14 @@
       <section class="hero">
         <div class="container hero-grid">
           <div class="hero-copy-block">
-            <p class="eyebrow">Hand-painted aesthetics. Occasion-ready clothing. Studio-led support.</p>
-            <h1 class="hero-title">Handcrafted Indian designer wear for women, girls, and thoughtful gifting.</h1>
+            <p class="eyebrow">Design-led clothing, hand-painted accents, curated bags, and studio-crafted gifting.</p>
+            <h1 class="hero-title">A creative design studio for clothing, keepsakes, and handcrafted everyday beauty.</h1>
             <p class="hero-copy">
-              Ruhani Creations by Sumati brings together festive kurtas, lehengas, dupatta edits, and hand-finished collections shaped by artistry, softness, and personal attention from our Agra studio.
+              Ruhani Creations by Sumati brings together women’s occasion wear, girl child festive sets, hand-painted dupatta stories, and emerging bag lines shaped by artistry, softness, and thoughtful detail from our Agra studio.
             </p>
             <div class="hero-actions">
               <a class="button primary" href="catalog.html">Explore Catalog</a>
-              <a class="button secondary" href="about.html#founder">Meet the Founder</a>
+              <a class="button secondary" href="how-to-order.html">How to Order</a>
               <a class="button ghost" href="contact.html">Visit the Studio</a>
             </div>
           </div>
@@ -74,32 +82,32 @@
                 <img src="assets/products/women/11218B92-4841-4127-A73F-2F0D846DE3D3.PNG" alt="Women's festive kurta set">
                 <div class="showcase-body">
                   <span class="showcase-tag">Women</span>
-                  <h2 class="showcase-title">Festive Kurtas</h2>
-                  <p class="showcase-note">Elegant silhouettes for gatherings, gifting, and intimate celebrations.</p>
+                  <h2 class="showcase-title">Occasion Wear</h2>
+                  <p class="showcase-note">Refined silhouettes for poojas, family events, and celebration-led dressing.</p>
                 </div>
               </article>
               <article class="showcase-card">
                 <img src="assets/products/girl-child/4362C4B8-75A4-4205-A0F5-6FDB97AA9647.PNG" alt="Girl child lehenga set">
                 <div class="showcase-body">
                   <span class="showcase-tag">Girl Child</span>
-                  <h2 class="showcase-title">Celebration Sets</h2>
-                  <p class="showcase-note">Comfortable and festive designs for family functions and dance-ready moments.</p>
+                  <h2 class="showcase-title">Festive Sets</h2>
+                  <p class="showcase-note">Comfortable designs that still feel dressed for movement, memories, and family celebrations.</p>
                 </div>
               </article>
               <article class="showcase-card">
                 <img src="assets/products/women/63D2FB4C-1591-4900-91F6-BBEA63B34B97.PNG" alt="Hand-painted dupatta styling edit">
                 <div class="showcase-body">
                   <span class="showcase-tag">Art Edit</span>
-                  <h2 class="showcase-title">Dupatta Stories</h2>
-                  <p class="showcase-note">Statement drapes and curated combinations shaped by a painter’s eye.</p>
+                  <h2 class="showcase-title">Painted Dupattas</h2>
+                  <p class="showcase-note">Statement drapes and curated accents shaped by Sumati’s painterly eye.</p>
                 </div>
               </article>
               <article class="showcase-card">
                 <img src="assets/products/women/6F62AB1B-3014-472C-BD00-0A8F0C3FF87B.PNG" alt="Signature suit set">
                 <div class="showcase-body">
-                  <span class="showcase-tag">Studio Support</span>
-                  <h2 class="showcase-title">Style Guidance</h2>
-                  <p class="showcase-note">Direct WhatsApp support for sizing, appointments, customization, and gifting.</p>
+                  <span class="showcase-tag">Design Expansion</span>
+                  <h2 class="showcase-title">Bags &amp; Giftables</h2>
+                  <p class="showcase-note">The studio is extending into tote bags, sets of three, yoga carry bags, and thoughtful gifting pieces.</p>
                 </div>
               </article>
             </div>
@@ -112,29 +120,29 @@
           <div class="section-head">
             <div>
               <p class="eyebrow">What We Offer</p>
-              <h2>Collections shaped for celebrations, gifting, and keepsake moments.</h2>
+              <h2>Design categories that move from wearables to functional keepsakes.</h2>
             </div>
           </div>
           <div class="collection-grid">
             <article class="collection-card">
               <img src="assets/products/women/3DBC2DFE-D50D-4189-9A92-A477BFE068AE.PNG" alt="Women's occasion wear">
-              <h3>Women’s Occasion Wear</h3>
-              <p>Kurta sets, festive edits, and graceful silhouettes designed for poojas, family events, and polished daywear.</p>
+              <h3>Women’s Wear</h3>
+              <p>Sarees, suit and dupatta sets, lehengas, and event-ready silhouettes designed for polished celebrations and studio-guided styling.</p>
             </article>
             <article class="collection-card">
               <img src="assets/products/girl-child/C31BACC5-01D8-4EB7-BCF0-8FB7684871BD.PNG" alt="Girl child collection">
               <h3>Girl Child Festive Wear</h3>
-              <p>Lehengas, frocks, and traditional sets made to look celebratory while staying comfortable for movement and play.</p>
+              <p>Traditional sets, lehengas, and playful celebration looks created to stay comfortable while still photographing beautifully.</p>
             </article>
             <article class="collection-card">
               <img src="assets/products/women/A3988E07-AF2A-4C5F-B1A9-BA419DEB428F.PNG" alt="Hand-painted dupatta collection">
               <h3>Hand-painted Accents</h3>
-              <p>Art-led styling through dupattas, motifs, borders, and curated sets that feel personal, expressive, and one of a kind.</p>
+              <p>Dupatta stories, painted motifs, and signature art-led detailing that help every piece feel personal and one of one.</p>
             </article>
             <article class="collection-card">
-              <img src="assets/products/women/75959142-46BB-4BDB-965E-7B746EDDA380.PNG" alt="Studio styling support">
-              <h3>Studio-led Selection</h3>
-              <p>Support for appointments, budget conversations, delivery planning, and outfit selection based on the event you are dressing for.</p>
+              <img src="assets/RCBS_Logo_dark.PNG" alt="Ruhani Creations by Sumati design brand">
+              <h3>Creative Bags &amp; Utility Pieces</h3>
+              <p>Tote bags with zipper, tote bags without zipper, sets of three bags, and yoga mat carry bags are part of the studio’s expanding design line.</p>
             </article>
           </div>
         </section>
@@ -143,24 +151,24 @@
           <div class="section-head">
             <div>
               <p class="eyebrow">How We Work</p>
-              <h2>A simple path from discovery to delivery.</h2>
+              <h2>A simpler path from browsing to a real order conversation.</h2>
             </div>
           </div>
           <div class="step-grid">
             <article class="step-card">
               <div class="step-number">01</div>
               <h3>Browse and shortlist</h3>
-              <p>Start with the catalog, save the looks you like, and note the occasion, preferred colours, and budget range.</p>
+              <p>Start with the catalog, review the images, and note the product codes for the pieces that fit your occasion or gifting need.</p>
             </article>
             <article class="step-card">
               <div class="step-number">02</div>
-              <h3>Connect with the studio</h3>
-              <p>Message us on WhatsApp or email for availability, sizing guidance, customization scope, and final pricing.</p>
+              <h3>Use the built-in order flow</h3>
+              <p>Available products now include an Order button that opens WhatsApp, email, or Instagram with the product details already prepared.</p>
             </article>
             <article class="step-card">
               <div class="step-number">03</div>
-              <h3>Confirm and celebrate</h3>
-              <p>Once details are aligned, we help with pickup or delivery so your outfit arrives ready for the celebration.</p>
+              <h3>Confirm with the studio</h3>
+              <p>Once details are aligned, we guide you on sizing, availability, pickup or delivery, and the next step toward confirmation.</p>
             </article>
           </div>
         </section>
@@ -168,9 +176,9 @@
         <section class="section-shell split-panel">
           <div>
             <p class="eyebrow">Founder-led Craft</p>
-            <h2>Created by Sumati Aswani with the sensitivity of hand-painting at its core.</h2>
+            <h2>Created by Sumati Aswani with hand-painting, design sensitivity, and meaningful detail at the core.</h2>
             <p class="info-copy">
-              Every collection is shaped by Sumati’s artistic eye: softness in colour, meaning in detail, and the intention to make each piece feel intimate rather than mass-made.
+              Every collection is shaped by Sumati’s artistic eye: softness in colour, intention in detail, and a preference for pieces that feel intimate rather than generic or mass-made.
             </p>
             <div class="hero-actions">
               <a class="button ghost" href="about.html#founder">Read the founder story</a>
@@ -186,7 +194,7 @@
           <div class="section-head">
             <div>
               <p class="eyebrow">Visit, Review, or Reach Us</p>
-              <h2>From our Agra studio to your next celebration.</h2>
+              <h2>From our Agra studio to your next celebration, order, or keepsake idea.</h2>
             </div>
           </div>
           <div class="detail-grid">
@@ -213,25 +221,53 @@
 
     <footer class="site-footer">
       <div class="container footer-shell">
-        <div class="footer-top">
-          <div>
-            <div class="footer-title">Ruhani Creations by Sumati</div>
-            <div class="footer-meta">Handcrafted Indian designer wear from Agra.</div>
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img class="footer-logo" src="assets/RCBS_Logo_light.PNG" alt="Ruhani Creations by Sumati light logo">
+            <p class="footer-copy">Ruhani Creations by Sumati is a design-led studio from Agra creating festive clothing, hand-painted accents, curated gifting, and lifestyle pieces that feel personal and lasting.</p>
+            <div class="footer-socials">
+              <a href="https://wa.me/919105114152" target="_blank" rel="noreferrer">WhatsApp</a>
+              <a href="https://www.instagram.com/ruhani.creations/" target="_blank" rel="noreferrer">Instagram</a>
+              <a href="mailto:order@ruhanicreationsbysumati.com">Email</a>
+            </div>
           </div>
-          <div class="footer-links">
+          <div class="footer-column">
+            <p class="footer-heading">Explore</p>
             <a href="index.html">Home</a>
             <a href="catalog.html">Catalog</a>
-            <a href="about.html">About</a>
             <a href="coming-soon.html">Coming Soon</a>
+            <a href="how-to-order.html">How to Order</a>
+          </div>
+          <div class="footer-column">
+            <p class="footer-heading">About Us</p>
+            <a href="about.html">Overview</a>
+            <a href="about.html#founder">Founder</a>
+            <a href="about.html#brand">Brand Story</a>
+            <a href="about.html#values">Design Values</a>
+          </div>
+          <div class="footer-column">
+            <p class="footer-heading">Resources</p>
             <a href="contact.html">Contact</a>
             <a href="faq.html">FAQ</a>
-            <a href="terms.html">Terms</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="https://wa.me/919105114152" target="_blank" rel="noreferrer">WhatsApp</a>
-            <a href="https://www.instagram.com/ruhani.creations/" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="terms.html">Terms &amp; Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+          </div>
+          <div class="footer-column">
+            <p class="footer-heading">Studio</p>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Ruhani%20Creations%20by%20Sumati%2C%20B27%2C%20Sarlabagh%20Extension%2C%20DayalBagh%2C%20Agra%2C%20Uttar%20Pradesh%20282005" target="_blank" rel="noreferrer">DayalBagh, Agra</a>
+            <a href="tel:+919105114152">+91 91051 14152</a>
+            <a href="mailto:support@ruhanicreationsbysumati.com">support@ruhanicreationsbysumati.com</a>
+            <a href="mailto:order@ruhanicreationsbysumati.com">order@ruhanicreationsbysumati.com</a>
           </div>
         </div>
-        <p class="footer-meta">© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
+        <div class="footer-bottom">
+          <p>© <span class="js-year"></span> Ruhani Creations by Sumati. All rights reserved.</p>
+          <div class="footer-bottom-links">
+            <a href="terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
       </div>
     </footer>
   </div>

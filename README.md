@@ -1,6 +1,6 @@
 # Ruhani Creations by Sumati Website
 
-This is a static multi-page catalog website for an Indian designer clothing business.
+This is a static multi-page website for Ruhani Creations by Sumati, a design-led creative studio showcasing occasion wear, hand-painted accents, curated gifting, and emerging utility products.
 
 For infrastructure/configuration details, see `PROJECT_PLAN.md`.
 
@@ -12,6 +12,7 @@ For infrastructure/configuration details, see `PROJECT_PLAN.md`.
 - `contact.html` - Contact page
 - `faq.html` - FAQ page
 - `coming-soon.html` - Upcoming categories
+- `how-to-order.html` - Ordering guide and channel flow
 - `terms.html` - Terms and conditions
 - `privacy.html` - Privacy policy
 - `401.html` - Unauthorized page
@@ -25,14 +26,18 @@ Standard website files included:
 ## Core features
 
 - Sticky top header navigation with grouped resources
-- Footer links on every page
+- Responsive mobile navigation and shared footer on every page
 - Product cards with:
   - multiple photos per product
   - description
-  - original price, discount, and net price in INR
+  - marked price, offer price, and savings in INR
   - stock status (`in-stock` / `sold`)
 - Search and filters on the catalog page
 - Product details modal gallery with left/right image navigation and zoom controls
+- Built-in order flow for available items:
+  - `Order now` action in the catalog
+  - WhatsApp and email links prefilled with product code and price
+  - Instagram flow with copied product details for DM paste
 - Mobile responsive layout
 
 ## Product updates
