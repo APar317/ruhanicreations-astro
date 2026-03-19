@@ -16,7 +16,6 @@ const zoomInBtn = document.getElementById("zoom-in");
 const modalThumbs = document.getElementById("modal-thumbnails");
 const modalCategory = document.getElementById("modal-category");
 const modalTitle = document.getElementById("modal-title");
-const modalCode = document.getElementById("modal-code");
 const modalPrice = document.getElementById("modal-price");
 const modalStatus = document.getElementById("modal-status");
 const modalDescription = document.getElementById("modal-description");
@@ -26,13 +25,13 @@ const orderModal = document.getElementById("order-modal");
 const closeOrderModalBtn = document.getElementById("close-order-modal");
 const orderProductImage = document.getElementById("order-product-image");
 const orderProductTitle = document.getElementById("order-product-title");
-const orderProductCode = document.getElementById("order-product-code");
 const orderProductPrice = document.getElementById("order-product-price");
 const orderProductStatus = document.getElementById("order-product-status");
 const orderWhatsapp = document.getElementById("order-whatsapp");
 const orderEmail = document.getElementById("order-email");
 const orderInstagram = document.getElementById("order-instagram");
 const orderFeedback = document.getElementById("order-feedback");
+const orderChannelGrid = document.querySelector(".order-channel-grid");
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 3;
 const ZOOM_STEP = 0.25;
@@ -41,6 +40,7 @@ let activeModalProduct = null;
 let activeOrderProduct = null;
 let activeImageIndex = 0;
 let zoomLevel = ZOOM_MIN;
+const orderChannelButtons = [orderWhatsapp, orderEmail, orderInstagram].filter(Boolean);
 
 const currency = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -226,7 +226,6 @@ function renderProducts() {
           <div class="card-body">
             <div class="card-meta">
               <p class="eyebrow">${item.category}</p>
-              <span class="product-code">Code ${formatProductCode(item)}</span>
             </div>
             <div class="card-head">
               <h3>${item.title}</h3>
@@ -251,6 +250,17 @@ function renderProducts() {
       `;
     })
     .join("");
+}
+
+function syncPageScrollLock() {
+  const hasOpenDialog = Boolean(modal?.open || orderModal?.open);
+  document.body.classList.toggle("modal-open", hasOpenDialog);
+}
+
+function setActiveOrderChannel(activeButton = orderWhatsapp) {
+  orderChannelButtons.forEach((button) => {
+    button.classList.toggle("is-active", button === activeButton);
+  });
 }
 
 function updateImageNavigationState() {
@@ -315,7 +325,6 @@ function openModal(productId) {
   activeImageIndex = 0;
   modalCategory.textContent = product.category;
   modalTitle.textContent = product.title;
-  modalCode.textContent = `Product code ${formatProductCode(product)}`;
   modalPrice.innerHTML = renderModalPriceMarkup(product);
   modalStatus.textContent = statusLabel(product.status);
   modalStatus.className = `status-badge ${statusClass(product.status)}`;
@@ -328,15 +337,14 @@ function openModal(productId) {
   updateImageNavigationState();
   setActiveModalImage(0);
   modal.showModal();
+  syncPageScrollLock();
 }
 
 function closeModal() {
   if (modal.open) {
     modal.close();
   }
-  activeModalProduct = null;
-  activeImageIndex = 0;
-  resetZoom();
+  syncPageScrollLock();
 }
 
 function buildOrderMessage(product) {
@@ -385,7 +393,6 @@ function openOrderModal(productId) {
   orderProductImage.src = product.images[0] || "";
   orderProductImage.alt = product.title;
   orderProductTitle.textContent = product.title;
-  orderProductCode.textContent = formatProductCode(product);
   orderProductPrice.textContent = productPrice;
   orderProductStatus.textContent = statusLabel(product.status);
   orderWhatsapp.href = `https://wa.me/919105114152?text=${encodeURIComponent(orderMessage)}`;
@@ -393,14 +400,17 @@ function openOrderModal(productId) {
     `mailto:order@ruhanicreationsbysumati.com?subject=${encodeURIComponent(`Order enquiry - ${formatProductCode(product)}`)}` +
     `&body=${encodeURIComponent(orderMessage)}`;
   orderFeedback.textContent = "";
+  setActiveOrderChannel(orderWhatsapp);
   orderModal.showModal();
+  syncPageScrollLock();
+  orderWhatsapp.focus();
 }
 
 function closeOrderModal() {
   if (orderModal?.open) {
     orderModal.close();
   }
-  activeOrderProduct = null;
+  syncPageScrollLock();
 }
 
 function setupEvents() {
@@ -425,8 +435,9 @@ function setupEvents() {
   closeModalBtn.addEventListener("click", closeModal);
   orderFromModalBtn?.addEventListener("click", () => {
     if (!activeModalProduct || activeModalProduct.status !== "in-stock") return;
+    const productId = activeModalProduct.id;
     closeModal();
-    openOrderModal(activeModalProduct.id);
+    openOrderModal(productId);
   });
 
   prevImageBtn.addEventListener("click", () => moveModalImage(-1));
@@ -445,6 +456,12 @@ function setupEvents() {
       event.clientX <= rect.left + rect.width;
     if (!inDialog) closeModal();
   });
+  modal.addEventListener("close", () => {
+    activeModalProduct = null;
+    activeImageIndex = 0;
+    resetZoom();
+    syncPageScrollLock();
+  });
 
   closeOrderModalBtn?.addEventListener("click", closeOrderModal);
 
@@ -456,6 +473,22 @@ function setupEvents() {
       rect.left <= event.clientX &&
       event.clientX <= rect.left + rect.width;
     if (!inDialog) closeOrderModal();
+  });
+  orderModal?.addEventListener("close", () => {
+    activeOrderProduct = null;
+    orderFeedback.textContent = "";
+    setActiveOrderChannel(orderWhatsapp);
+    syncPageScrollLock();
+  });
+
+  orderChannelButtons.forEach((button) => {
+    button.addEventListener("mouseenter", () => setActiveOrderChannel(button));
+    button.addEventListener("focus", () => setActiveOrderChannel(button));
+  });
+
+  orderChannelGrid?.addEventListener("mouseleave", () => {
+    const focusedButton = orderChannelButtons.find((button) => button === document.activeElement);
+    setActiveOrderChannel(focusedButton || orderWhatsapp);
   });
 
   modalThumbs.addEventListener("click", (event) => {
