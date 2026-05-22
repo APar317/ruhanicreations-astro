@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="260" viewBox="0 0 880 260" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Ruhani Creations by Sumati</title>
+  <desc id="logoDesc">Ruhani Creations by Sumati logo in deep green and gold.</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d7bb78"/>
+      <stop offset="100%" stop-color="#b88928"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="880" height="260" fill="transparent"/>
+
+  <g fill="none" stroke="url(#gold)" stroke-width="4" stroke-linecap="round" opacity="0.95">
+    <path d="M290 52 C330 12, 365 12, 405 52"/>
+    <path d="M475 52 C515 12, 550 12, 590 52"/>
+    <path d="M440 20 L452 44 L478 44 L458 58 L466 82 L440 68 L414 82 L422 58 L402 44 L428 44 Z"/>
+    <path d="M440 115 C418 96, 414 76, 440 50 C466 76, 462 96, 440 115 Z"/>
+  </g>
+
+  <text x="440" y="165" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="86" fill="#0f5a45" font-style="italic">
+    Ruhani Creations
+  </text>
+
+  <g stroke="url(#gold)" stroke-width="4" fill="none" opacity="0.95">
+    <line x1="215" y1="199" x2="340" y2="199"/>
+    <line x1="540" y1="199" x2="665" y2="199"/>
+  </g>
+
+  <text x="440" y="214" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="62" fill="url(#gold)">
+    by Sumati
+  </text>
+</svg>

@@ -1,0 +1,164 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Catalog | Ruhani Creations by Sumati"
+  description="Browse the Ruhani Creations by Sumati catalog for design-led clothing, hand-painted accents, sold references, and ready-to-order pieces."
+>
+  <main class="content-main">
+    <section class="page-hero">
+      <div class="container page-hero-grid">
+        <div>
+          <p class="eyebrow">Catalog</p>
+          <h1>Browse available pieces, reference archives, and design-led collections.</h1>
+          <p class="page-intro">
+            This catalog includes ready-to-order items as well as sold references that remain on the website for inspiration. Open any product to see multiple images, zoom in, and review pricing before you connect with the studio.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="/how-to-order">See How Ordering Works</a>
+            <a class="button ghost" href="/contact">Need studio help?</a>
+          </div>
+        </div>
+        <div class="brand-mark-card">
+          <img class="page-mark" src="/assets/generated/rcbs-emblem-dark.png" alt="Ruhani Creations by Sumati emblem">
+        </div>
+      </div>
+    </section>
+
+    <div class="container page-stack">
+      <section class="section-shell">
+        <div class="detail-grid">
+          <article class="detail-card">
+            <h3>How to read the catalog</h3>
+            <ul>
+              <li><strong>Offer price</strong> shows the amount we would discuss for the currently available item.</li>
+              <li><strong>Marked price</strong> shows the pre-discount catalog price where an offer is being highlighted.</li>
+              <li><strong>Reference only</strong> marks sold pieces that remain visible for styling inspiration and archive viewing.</li>
+            </ul>
+          </article>
+          <article class="detail-card">
+            <h3>Ordering is now built into the catalog</h3>
+            <p>Available items now include an <strong>Order now</strong> action. It opens a small window with WhatsApp, email, and Instagram options so the product code and catalog price move with you into the conversation.</p>
+            <div class="contact-links">
+              <a class="button primary" href="/how-to-order">How to Order</a>
+              <a class="button ghost" href="/contact">View all contact channels</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="controls" id="catalog">
+        <div class="control">
+          <label for="search">Search products</label>
+          <input id="search" type="search" placeholder="Try lehenga, handpainted, kurta, dupatta...">
+        </div>
+        <div class="control">
+          <label for="category">Category</label>
+          <select id="category"></select>
+        </div>
+        <div class="control">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="all">All</option>
+            <option value="in-stock">In Stock</option>
+            <option value="sold">Sold</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="catalog">
+        <div id="product-grid" class="product-grid" aria-live="polite"></div>
+        <p id="empty-state" class="empty-state hidden">No products found. Try changing your filters or search terms.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- PRODUCT MODAL -->
+  <dialog id="product-modal" class="modal">
+    <article class="modal-card">
+      <button id="close-modal" class="icon-button" type="button" aria-label="Close product details">×</button>
+      <div class="modal-gallery">
+        <div id="modal-image-frame" class="modal-image-frame">
+          <button id="modal-prev-image" class="gallery-nav gallery-nav-prev" type="button" aria-label="View previous image">&#10094;</button>
+          <img id="modal-main-image" alt="">
+          <button id="modal-next-image" class="gallery-nav gallery-nav-next" type="button" aria-label="View next image">&#10095;</button>
+          <div class="zoom-controls" aria-label="Image zoom controls">
+            <button id="zoom-out" class="zoom-button" type="button" aria-label="Zoom out">-</button>
+            <button id="zoom-reset" class="zoom-button" type="button" aria-label="Reset zoom">100%</button>
+            <button id="zoom-in" class="zoom-button" type="button" aria-label="Zoom in">+</button>
+          </div>
+        </div>
+        <div id="modal-thumbnails" class="thumbnails"></div>
+      </div>
+      <div class="modal-details">
+        <p id="modal-category" class="eyebrow"></p>
+        <h3 id="modal-title"></h3>
+        <div id="modal-price" class="modal-price"></div>
+        <p id="modal-status" class="status-badge"></p>
+        <p id="modal-description" class="modal-description"></p>
+        <div class="modal-actions">
+          <button id="order-from-modal" class="button primary" type="button">Order this item</button>
+          <a class="button ghost" href="/how-to-order">Ordering help</a>
+        </div>
+      </div>
+    </article>
+  </dialog>
+
+  <!-- ORDER MODAL -->
+  <dialog id="order-modal" class="modal">
+    <article class="modal-card order-modal-card">
+      <button id="close-order-modal" class="icon-button" type="button" aria-label="Close ordering options">×</button>
+      <div class="order-summary-panel">
+        <div class="order-product-preview">
+          <img id="order-product-image" alt="">
+        </div>
+        <span class="order-summary-chip">Ready to connect</span>
+        <h3 id="order-product-title"></h3>
+        <div class="order-summary-meta">
+          <div class="order-summary-meta-item">
+            <span class="price-mini-label">Catalog Price</span>
+            <strong id="order-product-price"></strong>
+          </div>
+          <div class="order-summary-meta-item">
+            <span class="price-mini-label">Status</span>
+            <strong id="order-product-status"></strong>
+          </div>
+        </div>
+      </div>
+      <div class="order-channel-panel">
+        <p class="eyebrow">Choose your channel</p>
+        <h3>We prepare the product details for you before the conversation begins.</h3>
+        <p class="order-copy">WhatsApp and email open with the product code, product name, and catalog price already added. Instagram opens our profile after copying the same details so you can paste them into your DM.</p>
+        <div class="order-channel-grid">
+          <a id="order-whatsapp" class="order-channel-button preferred" href="#" target="_blank" rel="noreferrer">
+            <span class="order-channel-icon icon-whatsapp">WA</span>
+            <span class="order-channel-copy">
+              <strong>WhatsApp</strong>
+              <span>Fastest route for product availability, sizing help, and final order coordination.</span>
+            </span>
+          </a>
+          <a id="order-email" class="order-channel-button" href="#">
+            <span class="order-channel-icon icon-email">@</span>
+            <span class="order-channel-copy">
+              <strong>Email</strong>
+              <span>Best when you want a written thread for orders, gifting notes, or repeat coordination.</span>
+            </span>
+          </a>
+          <button id="order-instagram" class="order-channel-button" type="button">
+            <span class="order-channel-icon icon-instagram">IG</span>
+            <span class="order-channel-copy">
+              <strong>Instagram</strong>
+              <span>We copy the product details first, then open the profile so you can paste them into your message.</span>
+            </span>
+          </button>
+        </div>
+        <p class="order-note">Sold items remain in the catalog for reference and inspiration, but only currently available items show the ordering flow.</p>
+        <p id="order-feedback" class="order-feedback" aria-live="polite"></p>
+      </div>
+    </article>
+  </dialog>
+
+  <script is:inline src="/products.js"></script>
+  <script is:inline src="/app.js"></script>
+</Layout>
