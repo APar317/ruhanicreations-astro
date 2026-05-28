@@ -1,106 +1,227 @@
-# Ruhani Creations by Sumati Website
+Ruhani Creations by Sumati — Astro + PocketBase CMS
+Project Overview
 
-This is a static multi-page website for Ruhani Creations by Sumati, a design-led creative studio showcasing occasion wear, hand-painted accents, curated gifting, and emerging utility products.
+Ruhani Creations by Sumati is a fashion/catalog website migrated from a static HTML architecture to a scalable Astro-based frontend integrated with PocketBase as a Headless CMS.
 
-For infrastructure/configuration details, see `PROJECT_PLAN.md`.
+The project focuses on:
 
-## Current pages
+scalable frontend architecture
+CMS-driven product management
+secure API integration
+improved maintainability
+deployment optimization
+OWASP security hardening
+Current Architecture
+PocketBase CMS
+       ↓
+Astro Server APIs
+       ↓
+Astro Frontend
+       ↓
+Dynamic Catalog Rendering
+Major Features
+Astro Frontend
+Astro-based architecture
+reusable layouts
+modular structure
+dynamic rendering
+SEO-friendly routing
+scalable page management
+PocketBase Headless CMS
+centralized product management
+dynamic product updates
+image uploads
+category-based filtering
+scalable collection structure
+Secure API Layer
 
-- `index.html` - Home page
-- `catalog.html` - Product catalog
-- `about.html` - About page
-- `contact.html` - Contact page
-- `faq.html` - FAQ page
-- `coming-soon.html` - Upcoming categories
-- `how-to-order.html` - Ordering guide and channel flow
-- `terms.html` - Terms and conditions
-- `privacy.html` - Privacy policy
-- `401.html` - Unauthorized page
-- `404.html` - Not found page
+Frontend does NOT directly communicate with PocketBase.
 
-Standard website files included:
+Instead:
 
-- `robots.txt`
-- `sitemap.xml`
+Frontend → Astro APIs → PocketBase
 
-## Core features
+Benefits:
 
-- Sticky top header navigation with grouped resources
-- Responsive mobile navigation and shared footer on every page
-- Product cards with:
-  - multiple photos per product
-  - description
-  - marked price, offer price, and savings in INR
-  - stock status (`in-stock` / `sold`)
-- Search and filters on the catalog page
-- Product details modal gallery with left/right image navigation and zoom controls
-- Built-in order flow for available items:
-  - `Order now` action in the catalog
-  - WhatsApp and email links prefilled with product code and price
-  - Instagram flow with copied product details for DM paste
-- Mobile responsive layout
+backend abstraction
+improved security
+hidden CMS endpoints
+controlled API responses
+Categories Implemented
 
-## Product updates
+Currently supported categories:
 
-Edit `products.js` and add/update product objects.
+women
+girl-child
 
-Each product needs:
+Products are dynamically fetched and rendered through CMS data.
 
-- `title`
-- `category`
-- `actualPriceInr`
-- `discountPercent`
-- `netPriceInr` (optional override; otherwise calculated automatically)
-- `status`
-- `description`
-- `images` (image paths, e.g. `assets/products/women/<file>.PNG`)
+Security Improvements
 
-## Product image hosting recommendation
+Security hardening performed using OWASP ZAP.
 
-For this static site, prefer storing product images in the repository under `assets/products/`.
+Implemented:
 
-- Good for launch and moderate catalog sizes.
-- Version controlled and deployed together with site changes.
-- Avoid using Dropbox public links for product assets (link stability and cache behavior are weaker for production websites).
+X-Frame-Options
+X-Content-Type-Options
+Referrer-Policy
+Permissions-Policy
+Content-Security-Policy improvements
+Technologies Used
+Technology	Purpose
+Astro	Frontend Framework
+PocketBase	Headless CMS
+TypeScript	API Logic
+Cloudflare/Vercel	Deployment
+OWASP ZAP	Security Testing
+Repository Structure
+.
+├── docs/
+├── public/
+├── src/
+│   ├── layouts/
+│   ├── pages/
+│   ├── lib/
+│   └── styles/
+├── CHANGELOG.md
+├── README.md
+└── package.json
+CMS Architecture
+Collection
+products
+Product Fields
+Field	Type
+title	text
+category	text
+description	text
+images	file
+slug	text
+actualPriceInr	number
+discountPercent	number
+netPriceInr	number
+status	text
+API Endpoints
+Products API
+/api/products
 
-## Local run
+Fetches all products dynamically from PocketBase.
 
-```bash
-python3 serve_local.py --port 8080
-```
+Category APIs
 
-Open `http://localhost:8080`.
+Examples:
 
-For missing URLs (example: `/notapage.html`), this local server returns your branded `404.html` page.
+/api/women
+/api/girl-child
+Dynamic Product API
+/api/product/[slug]
 
-## Deployment (free)
+Fetches product details dynamically using product slug.
 
-Recommended: **Cloudflare Pages**.
+Dynamic Rendering Flow
+PocketBase Admin
+       ↓
+Create/Update Product
+       ↓
+Astro API Fetch
+       ↓
+Frontend Auto Updates
 
-1. Push this folder to GitHub.
-2. Connect repo in Cloudflare Pages.
-3. Build settings:
-   - Framework: `None`
-   - Build command: empty
-   - Output directory: `/`
-4. Deploy.
-5. Add custom domain.
+No frontend code modification required after CMS integration.
 
-Alternative free hosts: Netlify, GitHub Pages.
+Setup Instructions
+1. Clone Repository
+git clone <repository-url>
+2. Install Dependencies
+npm install
+3. Start Astro Development Server
+npm run dev
 
-## Git tracking
+Runs at:
 
-If this folder is not yet a git repo:
+http://localhost:4321
+4. Setup PocketBase
 
-```bash
-git init -b main
-git add .
-git commit -m "Initial commit: Ruhani Creations website"
-```
+Download PocketBase and run:
 
-If commit fails, set identity once:
+pocketbase serve
 
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
-```
+Admin panel:
+
+http://127.0.0.1:8090/_/
+5. Configure Environment Variables
+
+Create:
+
+.env
+
+Add:
+
+POCKETBASE_URL=http://127.0.0.1:8090
+Security Architecture
+
+Frontend only accesses Astro APIs.
+
+PocketBase APIs remain abstracted behind the server layer.
+
+This prevents:
+
+direct backend exposure
+CMS structure leakage
+uncontrolled API access
+Documentation
+
+Detailed project documentation available:
+
+File	Purpose
+astro-migration.md	HTML to Astro migration process
+owasp-zap-security-fixes.md	Security testing & fixes
+pocketbase.md	CMS + API integration
+CHANGELOG.md	Complete project evolution
+Completed Implementations
+Frontend
+Astro migration
+reusable layouts
+dynamic rendering
+Security
+OWASP ZAP fixes
+secure headers
+API abstraction
+CMS
+PocketBase integration
+centralized products collection
+dynamic product management
+APIs
+Astro API layer
+secure backend communication
+scalable rendering flow
+Future Improvements
+
+Planned enhancements:
+
+multiple product image galleries
+primary image support
+admin authentication
+role-based access
+inventory management
+payment integration
+image optimization
+caching layer
+API rate limiting
+Current Status
+
+The project has successfully evolved from:
+
+Static HTML Website
+
+to:
+
+Astro + PocketBase CMS Architecture
+
+with:
+
+secure backend abstraction
+scalable frontend rendering
+CMS-driven product management
+deployment-ready structure
+improved maintainability
+enhanced security posture
