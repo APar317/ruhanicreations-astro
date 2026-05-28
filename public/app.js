@@ -82,6 +82,21 @@ function getSavings(product) {
   return Math.max(0, actualPrice - netPrice);
 }
 
+function normalizeImages(images) {
+  if (!images) return [];
+  if (typeof images === "string") return [images];
+  if (!Array.isArray(images)) return [];
+  return images
+    .map((image) => {
+      if (!image) return null;
+      if (typeof image === "string") return image;
+      if (image?.url) return image.url;
+      if (image?.thumbnail) return image.thumbnail;
+      return null;
+    })
+    .filter(Boolean);
+}
+
 function getDisplayPrice(product) {
   return getDiscountPercent(product) ? getNetPrice(product) : getActualPrice(product) || getNetPrice(product);
 }
@@ -218,7 +233,8 @@ function renderProducts() {
 
   productGrid.innerHTML = items
     .map((item) => {
-      const firstImage = item.images[0] || "";
+      const imageList = normalizeImages(item.images);
+      const firstImage = imageList[0] || "";
       const canOrder = item.status === "in-stock";
       return `
         <article class="card">
@@ -290,7 +306,8 @@ function adjustZoom(delta) {
 }
 
 function renderModalThumbnails(product, selectedIndex) {
-  modalThumbs.innerHTML = product.images
+  const imageList = normalizeImages(product.images);
+  modalThumbs.innerHTML = imageList
     .map((img, index) => {
       const activeClass = index === selectedIndex ? "active" : "";
       return `
@@ -389,8 +406,9 @@ function openOrderModal(productId) {
   activeOrderProduct = product;
   const orderMessage = buildOrderMessage(product);
   const productPrice = currency.format(getDisplayPrice(product));
+  const orderImage = normalizeImages(product.images)[0] || "";
 
-  orderProductImage.src = product.images[0] || "";
+  orderProductImage.src = orderImage;
   orderProductImage.alt = product.title;
   orderProductTitle.textContent = product.title;
   orderProductPrice.textContent = productPrice;
@@ -578,4 +596,31 @@ function init() {
   resetZoom();
 }
 
-init();
+/**
+ * Observer for dynamic product loading
+ * Re-initializes the app when PRODUCTS become available
+ */
+(function setupDynamicProductLoader() {
+  // Check if products already loaded
+  if (typeof PRODUCTS !== 'undefined') {
+    init();
+    return;
+  }
+
+  // Monitor for PRODUCTS becoming available
+  let checkCount = 0;
+  const maxChecks = 100; // Check for up to 5 seconds (50ms * 100)
+  
+  const checkProducts = setInterval(() => {
+    if (typeof PRODUCTS !== 'undefined') {
+      clearInterval(checkProducts);
+      init();
+    } else if (++checkCount >= maxChecks) {
+      clearInterval(checkProducts);
+      // Initialize with empty products array if loading takes too long
+      window.PRODUCTS = [];
+      console.warn('Products did not load within timeout period');
+      init();
+    }
+  }, 50);
+})();

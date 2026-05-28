@@ -159,6 +159,85 @@ import Layout from "../layouts/Layout.astro";
     </article>
   </dialog>
 
-  <script is:inline src="/products.js"></script>
-  <script is:inline src="/app.js"></script>
+  <script is:inline>
+    /**
+     * Dynamic Product Loader for PocketBase CMS Products
+     * - Fetches products strictly from the server API (/api/products)
+     * - Disables and removes any fallback to static /products.js
+     * - Sets window.PRODUCTS from the API response
+     * - Renders the empty state directly if no products exist or on fetch error
+     */
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.async = false;
+        s.onload = () => resolve();
+        s.onerror = (e) => reject(new Error(`Failed to load ${src}`));
+        document.body.appendChild(s);
+      });
+    }
+
+    async function fetchProductsFromApi() {
+      console.log("[Catalog Bootstrap] Fetching products from API endpoint: /api/products...");
+      try {
+        const response = await fetch('/api/products');
+        console.log(`[Catalog Bootstrap] API Response: Status ${response.status} ${response.statusText}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+        }
+        
+        const payload = await response.json();
+        console.log("[Catalog Bootstrap] API Raw Payload received:", payload);
+
+        // API might return { success: false, error: '...', data: [] } on failure
+        const data = Array.isArray(payload)
+          ? payload
+          : Array.isArray(payload?.data)
+          ? payload.data
+          : Array.isArray(payload?.items)
+          ? payload.items
+          : Array.isArray(payload?.records)
+          ? payload.records
+          : [];
+
+        console.log(`[Catalog Bootstrap] Extracted products count: ${data.length}`);
+        return data;
+      } catch (err) {
+        console.error('[Catalog Bootstrap] fetchProductsFromApi failed with error:', err);
+        return null;
+      }
+    }
+
+    async function bootstrap() {
+      // Fetch strictly from the PocketBase CMS API
+      const apiProducts = await fetchProductsFromApi();
+      
+      if (apiProducts) {
+        // Populate window.PRODUCTS only from the successful API response
+        window.PRODUCTS = apiProducts;
+        console.log(`[Catalog Bootstrap] window.PRODUCTS populated successfully with ${apiProducts.length} PocketBase products.`);
+      } else {
+        // Set to empty array on failure so app.js can handle it without runtime errors
+        window.PRODUCTS = [];
+        console.warn('[Catalog Bootstrap] Set window.PRODUCTS to [] due to API fetch failure. Falling back to empty state.');
+      }
+
+      // Finally load app.js which will initialize and render the products or empty state
+      try {
+        console.log("[Catalog Bootstrap] Loading app.js to initialize UI rendering...");
+        await loadScript('/app.js');
+        console.log("[Catalog Bootstrap] app.js loaded and catalog UI initialized.");
+      } catch (err) {
+        console.error('[Catalog Bootstrap] Failed to load app.js:', err);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootstrap);
+    } else {
+      bootstrap();
+    }
+  </script>
 </Layout>

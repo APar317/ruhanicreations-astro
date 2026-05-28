@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.3.7"
+    "astro": "^6.3.7",
+    "dotenv": "^17.4.2",
+    "pocketbase": "^0.27.0"
   }
 }
