@@ -158,79 +158,116 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </article>
   </dialog>
-
   <script is:inline>
     /**
-     * Dynamic Product Loader for PocketBase CMS Products
-     * - Fetches products strictly from the server API (/api/products)
-     * - Disables and removes any fallback to static /products.js
-     * - Sets window.PRODUCTS from the API response
-     * - Renders the empty state directly if no products exist or on fetch error
+     * Dynamic Product Loader — tries server API first, falls back to direct PocketBase
+     * if the server returns 4xx/5xx (e.g., when collection rules block server-side access).
      */
+    const PB_BASE = 'http://127.0.0.1:8090';
+    const PB_COLLECTION = 'RuhaniCreationsBySumati_Girl_Child';
+
+    function buildPbFileUrl(collectionRef, recordId, filename) {
+      return `${PB_BASE}/api/files/${collectionRef}/${recordId}/${encodeURIComponent(filename)}`;
+    }
+
+    function transformPbRecord(rec) {
+      const collectionRef = rec.collectionId || rec.collectionName || PB_COLLECTION;
+      let images = [];
+      const filesList = rec.Image ?? rec.images ?? rec.image ?? null;
+      if (Array.isArray(filesList)) {
+        images = filesList.filter(Boolean).map(f => buildPbFileUrl(collectionRef, rec.id, f));
+      } else if (typeof filesList === 'string' && filesList) {
+        images = [buildPbFileUrl(collectionRef, rec.id, filesList)];
+      }
+
+      const actualPrice = Number(rec.Price ?? rec.actualPriceInr ?? rec.price ?? 0);
+      const discountPercent = Number(rec.Discount ?? rec.discountPercent ?? 0);
+      const netPrice = discountPercent > 0
+        ? Math.round(actualPrice * (1 - discountPercent / 100))
+        : actualPrice;
+      const rawStatus = (rec.Status ?? rec.status ?? '').toString().toLowerCase();
+      const status = rawStatus === 'sold' ? 'sold' : 'in-stock';
+
+      return {
+        id: rec.id,
+        collectionId: rec.collectionId,
+        collectionName: rec.collectionName,
+        title: rec.Title ?? rec.title ?? rec.name ?? 'Untitled Product',
+        category: rec.Category ?? rec.category ?? 'Uncategorized',
+        description: rec.Description ?? rec.description ?? '',
+        images,
+        actualPriceInr: actualPrice,
+        discountPercent,
+        netPriceInr: netPrice,
+        status,
+        slug: rec.slug ?? rec.id,
+      };
+    }
+
+    async function fetchFromServerApi() {
+      console.log('[Catalog] Trying server API /api/products...');
+      try {
+        const res = await fetch('/api/products');
+        if (!res.ok) throw new Error(`Server API returned ${res.status}`);
+        const data = await res.json();
+        const arr = Array.isArray(data) ? data
+          : Array.isArray(data?.data) ? data.data
+          : Array.isArray(data?.items) ? data.items
+          : [];
+        console.log(`[Catalog] Server API returned ${arr.length} products.`);
+        return arr;
+      } catch (err) {
+        console.warn('[Catalog] Server API failed:', err.message);
+        return null;
+      }
+    }
+
+    async function fetchDirectFromPocketBase() {
+      console.log('[Catalog] Falling back to direct PocketBase fetch...');
+      try {
+        const url = `${PB_BASE}/api/collections/${PB_COLLECTION}/records?perPage=200&sort=-created`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`PocketBase returned ${res.status} — check collection API rules`);
+        const data = await res.json();
+        const records = data.items ?? [];
+        const products = records.map(transformPbRecord);
+        console.log(`[Catalog] Direct PocketBase fetch returned ${products.length} products.`);
+        return products;
+      } catch (err) {
+        console.error('[Catalog] Direct PocketBase fetch failed:', err.message);
+        return null;
+      }
+    }
+
     function loadScript(src) {
       return new Promise((resolve, reject) => {
         const s = document.createElement('script');
         s.src = src;
         s.async = false;
         s.onload = () => resolve();
-        s.onerror = (e) => reject(new Error(`Failed to load ${src}`));
+        s.onerror = () => reject(new Error(`Failed to load ${src}`));
         document.body.appendChild(s);
       });
     }
 
-    async function fetchProductsFromApi() {
-      console.log("[Catalog Bootstrap] Fetching products from API endpoint: /api/products...");
-      try {
-        const response = await fetch('/api/products');
-        console.log(`[Catalog Bootstrap] API Response: Status ${response.status} ${response.statusText}`);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status} - ${response.statusText}`);
-        }
-        
-        const payload = await response.json();
-        console.log("[Catalog Bootstrap] API Raw Payload received:", payload);
-
-        // API might return { success: false, error: '...', data: [] } on failure
-        const data = Array.isArray(payload)
-          ? payload
-          : Array.isArray(payload?.data)
-          ? payload.data
-          : Array.isArray(payload?.items)
-          ? payload.items
-          : Array.isArray(payload?.records)
-          ? payload.records
-          : [];
-
-        console.log(`[Catalog Bootstrap] Extracted products count: ${data.length}`);
-        return data;
-      } catch (err) {
-        console.error('[Catalog Bootstrap] fetchProductsFromApi failed with error:', err);
-        return null;
-      }
-    }
-
     async function bootstrap() {
-      // Fetch strictly from the PocketBase CMS API
-      const apiProducts = await fetchProductsFromApi();
-      
-      if (apiProducts) {
-        // Populate window.PRODUCTS only from the successful API response
-        window.PRODUCTS = apiProducts;
-        console.log(`[Catalog Bootstrap] window.PRODUCTS populated successfully with ${apiProducts.length} PocketBase products.`);
-      } else {
-        // Set to empty array on failure so app.js can handle it without runtime errors
-        window.PRODUCTS = [];
-        console.warn('[Catalog Bootstrap] Set window.PRODUCTS to [] due to API fetch failure. Falling back to empty state.');
+      // 1. Try server-side API (uses admin auth, handles CORS, etc.)
+      let products = await fetchFromServerApi();
+
+      // 2. If server API fails, try direct PocketBase from client
+      if (!products) {
+        products = await fetchDirectFromPocketBase();
       }
 
-      // Finally load app.js which will initialize and render the products or empty state
+      // 3. Set global — app.js reads window.PRODUCTS
+      window.PRODUCTS = products ?? [];
+      console.log(`[Catalog] window.PRODUCTS set with ${window.PRODUCTS.length} items.`);
+
+      // 4. Load app.js to render
       try {
-        console.log("[Catalog Bootstrap] Loading app.js to initialize UI rendering...");
         await loadScript('/app.js');
-        console.log("[Catalog Bootstrap] app.js loaded and catalog UI initialized.");
       } catch (err) {
-        console.error('[Catalog Bootstrap] Failed to load app.js:', err);
+        console.error('[Catalog] Failed to load app.js:', err);
       }
     }
 
@@ -240,4 +277,4 @@ import Layout from "../layouts/Layout.astro";
       bootstrap();
     }
   </script>
-</Layout>
+</Layout>

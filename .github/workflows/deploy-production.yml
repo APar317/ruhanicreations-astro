@@ -43,16 +43,20 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name }}
 
-      - name: Prepare static bundle
-        run: |
-          set -euo pipefail
-          rm -rf .cf-pages-dist
-          mkdir -p .cf-pages-dist
-          cp -R assets .cf-pages-dist/
-          cp -R *.html .cf-pages-dist/
-          cp -R *.css .cf-pages-dist/
-          cp -R *.js .cf-pages-dist/
-          cp robots.txt sitemap.xml .cf-pages-dist/
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Astro Project
+        run: npm run build
+        env:
+          # Add any build-time environment variables here if needed
+          PUBLIC_POCKETBASE_URL: ${{ vars.PUBLIC_POCKETBASE_URL }}
 
       - name: Deploy to Cloudflare Pages
         id: deploy
@@ -60,7 +64,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .cf-pages-dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }} --branch=main
+          # Astro builds to the "dist" folder by default, so we deploy "dist" instead of copying files manually
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }} --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deployment output
