@@ -162,12 +162,12 @@ const pbBaseUrl = env.PUBLIC_POCKETBASE_URL ?? import.meta.env.PUBLIC_POCKETBASE
       </div>
     </article>
   </dialog>
-  <script is:inline define:vars={{ pbBase: pbBaseUrl }}>
+  <script is:inline>
     /**
-     * Dynamic Product Loader — tries server API first, falls back to direct PocketBase
-     * if the server returns 4xx/5xx (e.g., when collection rules block server-side access).
+     * Direct Client-Side Loader — bypasses Cloudflare Worker outbound IP restrictions
+     * by fetching directly from the GCP PocketBase IP in the browser.
      */
-    const PB_BASE = pbBase;
+    const PB_BASE = 'http://34.180.31.35';
     const PB_COLLECTION = 'RuhaniCreationsBySumati_Girl_Child';
 
     function buildPbFileUrl(collectionRef, recordId, filename) {
@@ -208,26 +208,8 @@ const pbBaseUrl = env.PUBLIC_POCKETBASE_URL ?? import.meta.env.PUBLIC_POCKETBASE
       };
     }
 
-    async function fetchFromServerApi() {
-      console.log('[Catalog] Trying server API /api/products...');
-      try {
-        const res = await fetch('/api/products');
-        if (!res.ok) throw new Error(`Server API returned ${res.status}`);
-        const data = await res.json();
-        const arr = Array.isArray(data) ? data
-          : Array.isArray(data?.data) ? data.data
-          : Array.isArray(data?.items) ? data.items
-          : [];
-        console.log(`[Catalog] Server API returned ${arr.length} products.`);
-        return arr;
-      } catch (err) {
-        console.warn('[Catalog] Server API failed:', err.message);
-        return null;
-      }
-    }
-
     async function fetchDirectFromPocketBase() {
-      console.log('[Catalog] Falling back to direct PocketBase fetch...');
+      console.log('[Catalog] Fetching directly from PocketBase...');
       try {
         const url = `${PB_BASE}/api/collections/${PB_COLLECTION}/records?perPage=200&sort=-created`;
         const res = await fetch(url);
@@ -255,13 +237,8 @@ const pbBaseUrl = env.PUBLIC_POCKETBASE_URL ?? import.meta.env.PUBLIC_POCKETBASE
     }
 
     async function bootstrap() {
-      // 1. Try server-side API (uses admin auth, handles CORS, etc.)
-      let products = await fetchFromServerApi();
-
-      // 2. If server API fails, try direct PocketBase from client
-      if (!products) {
-        products = await fetchDirectFromPocketBase();
-      }
+      // Direct client-side fetch from PocketBase IP to bypass Cloudflare Worker loopback/IP limits
+      const products = await fetchDirectFromPocketBase();
 
       // 3. Set global — app.js reads window.PRODUCTS
       window.PRODUCTS = products ?? [];
