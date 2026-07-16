@@ -40,6 +40,7 @@ export async function GET(context: any) {
     process.env.POCKETBASE_ADMIN_PASSWORD ??
     '';
 
+  console.log(`[API /api/products] Available env keys:`, Object.keys(env || {}));
   console.log(`[API /api/products] PocketBase: ${baseUrl}, Collection: ${collectionName}`);
 
   let authToken = '';
