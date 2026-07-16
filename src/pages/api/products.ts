@@ -10,22 +10,33 @@
  *   POCKETBASE_ADMIN_PASSWORD – superuser password (optional, for private collections)
  */
 
-export async function GET({ request }: { request: Request }) {
+export async function GET(context: any) {
+  const { request, locals } = context;
+  const cfEnv = locals?.runtime?.env ?? {};
+
   const baseUrl = (
+    cfEnv.PUBLIC_POCKETBASE_URL ??
     import.meta.env.PUBLIC_POCKETBASE_URL ??
     process.env.POCKETBASE_URL ??
     'http://127.0.0.1:8090'
   ).replace(/\/+$/, '');
 
   const collectionName =
+    cfEnv.POCKETBASE_COLLECTION ??
     import.meta.env.POCKETBASE_COLLECTION ??
     process.env.POCKETBASE_COLLECTION ??
     'RuhaniCreationsBySumati_Girl_Child';
 
   const adminEmail =
-    import.meta.env.POCKETBASE_ADMIN_EMAIL ?? process.env.POCKETBASE_ADMIN_EMAIL ?? '';
+    cfEnv.POCKETBASE_ADMIN_EMAIL ??
+    import.meta.env.POCKETBASE_ADMIN_EMAIL ??
+    process.env.POCKETBASE_ADMIN_EMAIL ??
+    '';
   const adminPassword =
-    import.meta.env.POCKETBASE_ADMIN_PASSWORD ?? process.env.POCKETBASE_ADMIN_PASSWORD ?? '';
+    cfEnv.POCKETBASE_ADMIN_PASSWORD ??
+    import.meta.env.POCKETBASE_ADMIN_PASSWORD ??
+    process.env.POCKETBASE_ADMIN_PASSWORD ??
+    '';
 
   console.log(`[API /api/products] PocketBase: ${baseUrl}, Collection: ${collectionName}`);
 

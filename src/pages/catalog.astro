@@ -1,5 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+// Read Cloudflare runtime environment variables at runtime
+const env = Astro.locals.runtime?.env ?? {};
+const pbBaseUrl = env.PUBLIC_POCKETBASE_URL ?? import.meta.env.PUBLIC_POCKETBASE_URL ?? 'http://127.0.0.1:8090';
 ---
 
 <Layout
@@ -158,7 +162,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </article>
   </dialog>
-  <script is:inline define:vars={{ pbBase: import.meta.env.PUBLIC_POCKETBASE_URL ?? 'http://127.0.0.1:8090' }}>
+  <script is:inline define:vars={{ pbBase: pbBaseUrl }}>
     /**
      * Dynamic Product Loader — tries server API first, falls back to direct PocketBase
      * if the server returns 4xx/5xx (e.g., when collection rules block server-side access).
