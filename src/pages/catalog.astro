@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+// @ts-ignore
+import { env } from 'cloudflare:workers';
 
-// Read Cloudflare runtime environment variables at runtime
-const env = Astro.locals.runtime?.env ?? {};
 const pbBaseUrl = env.PUBLIC_POCKETBASE_URL ?? import.meta.env.PUBLIC_POCKETBASE_URL ?? 'http://127.0.0.1:8090';
 ---
 

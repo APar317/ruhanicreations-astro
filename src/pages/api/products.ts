@@ -10,30 +10,32 @@
  *   POCKETBASE_ADMIN_PASSWORD – superuser password (optional, for private collections)
  */
 
+// @ts-ignore
+import { env } from 'cloudflare:workers';
+
 export async function GET(context: any) {
-  const { request, locals } = context;
-  const cfEnv = locals?.runtime?.env ?? {};
+  const { request } = context;
 
   const baseUrl = (
-    cfEnv.PUBLIC_POCKETBASE_URL ??
+    env.PUBLIC_POCKETBASE_URL ??
     import.meta.env.PUBLIC_POCKETBASE_URL ??
     process.env.POCKETBASE_URL ??
     'http://127.0.0.1:8090'
   ).replace(/\/+$/, '');
 
   const collectionName =
-    cfEnv.POCKETBASE_COLLECTION ??
+    env.POCKETBASE_COLLECTION ??
     import.meta.env.POCKETBASE_COLLECTION ??
     process.env.POCKETBASE_COLLECTION ??
     'RuhaniCreationsBySumati_Girl_Child';
 
   const adminEmail =
-    cfEnv.POCKETBASE_ADMIN_EMAIL ??
+    env.POCKETBASE_ADMIN_EMAIL ??
     import.meta.env.POCKETBASE_ADMIN_EMAIL ??
     process.env.POCKETBASE_ADMIN_EMAIL ??
     '';
   const adminPassword =
-    cfEnv.POCKETBASE_ADMIN_PASSWORD ??
+    env.POCKETBASE_ADMIN_PASSWORD ??
     import.meta.env.POCKETBASE_ADMIN_PASSWORD ??
     process.env.POCKETBASE_ADMIN_PASSWORD ??
     '';
