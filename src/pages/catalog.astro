@@ -158,12 +158,12 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </article>
   </dialog>
-  <script is:inline>
+  <script is:inline define:vars={{ pbBase: import.meta.env.PUBLIC_POCKETBASE_URL ?? 'http://127.0.0.1:8090' }}>
     /**
      * Dynamic Product Loader — tries server API first, falls back to direct PocketBase
      * if the server returns 4xx/5xx (e.g., when collection rules block server-side access).
      */
-    const PB_BASE = 'http://127.0.0.1:8090';
+    const PB_BASE = pbBase;
     const PB_COLLECTION = 'RuhaniCreationsBySumati_Girl_Child';
 
     function buildPbFileUrl(collectionRef, recordId, filename) {

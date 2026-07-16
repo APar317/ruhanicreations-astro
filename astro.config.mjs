@@ -1,6 +1,7 @@
 // @ts-check
 import 'dotenv/config';
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 // https://astro.build/config
 const securityHeaders = {
   'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: http://127.0.0.1:8090 http://localhost:8090 https:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' http://127.0.0.1:8090 http://localhost:8090; manifest-src 'self'; frame-src 'none'",
@@ -15,6 +16,8 @@ const securityHeaders = {
 };
 
 export default defineConfig({
+  output: 'server',
+  adapter: cloudflare(),
   vite: {
     server: {
       headers: securityHeaders
