@@ -171,8 +171,9 @@ const pbBaseUrl = env.PUBLIC_POCKETBASE_URL ?? import.meta.env.PUBLIC_POCKETBASE
     const PB_COLLECTION = 'RuhaniCreationsBySumati_Girl_Child';
 
     function buildPbFileUrl(collectionRef, recordId, filename) {
-      // Use free secure image CDN/Proxy to bypass browser mixed content blocks
-      return `https://images.weserv.nl/?url=34.180.31.35/api/files/${collectionRef}/${recordId}/${encodeURIComponent(filename)}`;
+      const rawUrl = `${PB_BASE}/api/files/${collectionRef}/${recordId}/${encodeURIComponent(filename)}`;
+      const cleanUrl = rawUrl.replace(/^https?:\/\//, '');
+      return `https://images.weserv.nl/?url=${encodeURIComponent(cleanUrl)}`;
     }
 
     function transformPbRecord(rec) {
