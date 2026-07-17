@@ -7,11 +7,15 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/download-assets.js && astro build",
+    "postinstall": "node scripts/download-assets.js && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.3.7"
+    "@astrojs/cloudflare": "^13.7.0",
+    "astro": "^6.3.7",
+    "dotenv": "^17.4.2",
+    "pocketbase": "^0.27.0"
   }
 }

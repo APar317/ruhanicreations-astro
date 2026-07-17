@@ -1,8 +1,9 @@
 // @ts-check
+import 'dotenv/config';
 import { defineConfig } from 'astro/config';
-
+// https://astro.build/config
 const securityHeaders = {
-  'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; manifest-src 'self'; frame-src 'none'",
+  'Content-Security-Policy': "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: http://127.0.0.1:8090 http://localhost:8090 https:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' http://127.0.0.1:8090 http://localhost:8090; manifest-src 'self'; frame-src 'none'",
   'X-Frame-Options': 'DENY',
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -13,8 +14,8 @@ const securityHeaders = {
   'Access-Control-Allow-Origin': 'https://www.ruhanicreationsbysumati.com'
 };
 
-// https://astro.build/config
 export default defineConfig({
+  output: 'static',
   vite: {
     server: {
       headers: securityHeaders
