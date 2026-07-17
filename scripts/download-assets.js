@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
+// Trigger build: 2026-07-17T10:22:00Z
 const PB_BASE = 'http://35.200.228.124';
 const PB_COLLECTION = 'RuhaniCreationsBySumati_Girl_Child';
 const PRODUCTS_DIR = path.join('public', 'assets', 'products');
