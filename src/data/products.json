@@ -1,5 +1,21 @@
 [
   {
+    "id": "w1330rloqhuabe5",
+    "collectionId": "pbc_3959791605",
+    "collectionName": "RuhaniCreationsBySumati_Girl_Child",
+    "title": "something special",
+    "category": "",
+    "description": "",
+    "images": [
+      "/assets/products/w1330rloqhuabe5_img_20250504_wa0005_d043f18kal.jpg"
+    ],
+    "actualPriceInr": 0,
+    "discountPercent": 0,
+    "netPriceInr": 0,
+    "status": "in-stock",
+    "slug": "w1330rloqhuabe5"
+  },
+  {
     "id": "qpoh8r5yxon1o61",
     "collectionId": "pbc_3959791605",
     "collectionName": "RuhaniCreationsBySumati_Girl_Child",
@@ -9,9 +25,9 @@
     "images": [
       "/assets/products/qpoh8r5yxon1o61_img_20250504_wa0009_5gruk3r1kc.jpg"
     ],
-    "actualPriceInr": 250,
+    "actualPriceInr": 25000000,
     "discountPercent": 10,
-    "netPriceInr": 225,
+    "netPriceInr": 22500000,
     "status": "in-stock",
     "slug": "qpoh8r5yxon1o61"
   },
