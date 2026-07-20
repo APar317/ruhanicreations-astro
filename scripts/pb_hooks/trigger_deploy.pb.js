@@ -1,5 +1,5 @@
 /**
- * PocketBase v0.38+ Bulletproof Safe JS Hook
+ * PocketBase v0.38+ OS Exec JS Hook for Instant Cloudflare Trigger
  * Place this file inside the `pb_hooks/` directory of your PocketBase installation on the GCP VM.
  */
 
@@ -7,27 +7,10 @@ const DEPLOY_HOOK_URL = "https://api.cloudflare.com/client/v4/workers/builds/dep
 
 function notifyDeploy() {
   try {
-    $http.send({
-      url: DEPLOY_HOOK_URL,
-      method: "POST",
-      timeout: 5
-    });
-  } catch (err) {
-    // Swallow any error to ensure UI never blocks
-  }
+    $os.exec("curl", "-s", "-X", "POST", DEPLOY_HOOK_URL);
+  } catch (err) {}
 }
 
-onRecordAfterCreateSuccess((e) => {
-  notifyDeploy();
-  return e.next ? e.next() : undefined;
-});
-
-onRecordAfterUpdateSuccess((e) => {
-  notifyDeploy();
-  return e.next ? e.next() : undefined;
-});
-
-onRecordAfterDeleteSuccess((e) => {
-  notifyDeploy();
-  return e.next ? e.next() : undefined;
-});
+onRecordAfterCreateSuccess((e) => { notifyDeploy(); });
+onRecordAfterUpdateSuccess((e) => { notifyDeploy(); });
+onRecordAfterDeleteSuccess((e) => { notifyDeploy(); });
