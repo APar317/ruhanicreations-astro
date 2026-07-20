@@ -1,6 +1,11 @@
-name: Deploy Cloudflare Pages Production on Release Tag
+name: Deploy Cloudflare Pages Production
 
 on:
+  push:
+    branches: [ruhani-cms, main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [pb_product_updated]
   release:
     types: [published]
 
@@ -10,38 +15,15 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy release tag to production
+    name: Deploy to production
     runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
 
     steps:
-      - name: Validate release tag format
-        run: |
-          set -euo pipefail
-          TAG="${{ github.event.release.tag_name }}"
-          if [[ ! "$TAG" =~ ^[0-9]{8}\.[0-9]+-prod$ ]]; then
-            echo "Invalid release tag: '$TAG'"
-            echo "Required format: YYYYMMDD.N-prod (example: 20260222.1-prod)"
-            exit 1
-          fi
-
-      - name: Validate required GitHub variable
-        env:
-          CLOUDFLARE_PAGES_PROJECT_NAME: ${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }}
-        run: |
-          set -euo pipefail
-          if [[ -z "${CLOUDFLARE_PAGES_PROJECT_NAME:-}" ]]; then
-            echo "Missing Actions variable: CLOUDFLARE_PAGES_PROJECT_NAME"
-            echo "Set it in GitHub repo Settings > Secrets and variables > Actions > Variables."
-            exit 1
-          fi
-
-      - name: Check out exact release tag
+      - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.release.tag_name }}
 
 
 
